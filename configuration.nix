@@ -129,7 +129,7 @@ environment.systemPackages = with pkgs; [
 	steam
 	pkgs.legcord
 
-
+  pkgs.gh
 	vscode
 	code-cursor
 	inputs.claude-desktop.packages.${pkgs.system}.claude-desktop
