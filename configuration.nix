@@ -63,7 +63,7 @@
   users.users."oliver" = {
     isNormalUser = true;
     description = "oliver";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "input"];
     packages = with pkgs; [];
   };
 
@@ -128,13 +128,20 @@ environment.systemPackages = with pkgs; [
 	audacity
 	steam
 	pkgs.legcord
+  
+  pavucontrol
+  
+  unzip
+
+  clang
+  gcc
 
   pkgs.gh
 	vscode
 	code-cursor
 	inputs.claude-desktop.packages.${pkgs.system}.claude-desktop
 
-
+  killall
 	swaynotificationcenter
 	cliphist
 	hyprlock
@@ -210,6 +217,40 @@ fonts.packages = with pkgs; [
   iosevka
   nerd-fonts.symbols-only
 ];
+
+
+
+
+# Load the uinput kernel module
+  boot.kernelModules = [ "uinput" ];
+
+  # Grant access to /dev/uinput for the input group
+  services.udev.extraRules = ''
+    KERNEL=="uinput", SUBSYSTEM=="misc", OPTIONS+="static_node=uinput", TAG+="uaccess", GROUP="input", MODE="0660"
+  '';
+
+  # Add your user to the input group (replace "oliver" with your actual username if different)
+
+
+
+
+
+
+  programs.localsend = {
+    enable = true;
+    openFirewall = true;   # opens the ports LocalSend needs
+  };
+
+
+
+
+
+
+
+
+
+
+
 
 
 
