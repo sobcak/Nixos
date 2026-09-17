@@ -137,7 +137,7 @@ environment.systemPackages = with pkgs; [
   gcc
 
   pkgs.gh
-	vscode
+	vscodium
 	code-cursor
 	inputs.claude-desktop.packages.${pkgs.system}.claude-desktop
 
