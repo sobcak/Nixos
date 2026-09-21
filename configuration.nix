@@ -63,7 +63,7 @@
   users.users."oliver" = {
     isNormalUser = true;
     description = "oliver";
-    extraGroups = [ "networkmanager" "wheel" "input" "nordvpn"];
+    extraGroups = [ "networkmanager" "wheel" "input" "nordvpn" "docker" ];
     packages = with pkgs; [];
   };
 
@@ -103,6 +103,8 @@
 
 services.flatpak.enable = true;
 
+virtualisation.docker.enable = true;
+
 environment.systemPackages = with pkgs; [
 	kitty
 	tuigreet
@@ -132,7 +134,7 @@ environment.systemPackages = with pkgs; [
 	pkgs.legcord
   
   pavucontrol
-  
+
   unzip
 
   clang
