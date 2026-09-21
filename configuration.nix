@@ -127,12 +127,14 @@ environment.systemPackages = with pkgs; [
 	xwayland-satellite
 
 
-
+  burpsuite
+  caido-desktop
 
 	firefox
 	audacity
 	pkgs.legcord
-  
+  tlp 
+ mapscii
   pavucontrol
 
   unzip
@@ -266,9 +268,13 @@ services.usbmuxd.enable = true;
 
 
 
+nix.gc = {
+  automatic = true;
+  dates = "weekly";
+  options = "--delete-older-than 14d";
+};
 
-
-
+zramSwap.enable = true;
 
 
 
