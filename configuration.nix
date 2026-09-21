@@ -63,7 +63,7 @@
   users.users."oliver" = {
     isNormalUser = true;
     description = "oliver";
-    extraGroups = [ "networkmanager" "wheel" "input"];
+    extraGroups = [ "networkmanager" "wheel" "input" "nordvpn"];
     packages = with pkgs; [];
   };
 
@@ -124,9 +124,11 @@ environment.systemPackages = with pkgs; [
 	wl-clipboard
 	xwayland-satellite
 
+
+
+
 	firefox
 	audacity
-	steam
 	pkgs.legcord
   
   pavucontrol
@@ -135,6 +137,10 @@ environment.systemPackages = with pkgs; [
 
   clang
   gcc
+  tree-sitter # Nix-built CLI; Mason's generic linux binary cannot run on NixOS
+  pyright # Mason installs this via npm, which is not on PATH
+  nodejs # so remaining Mason npm packages (docker LS, markdownlint) can install
+  dotnet-sdk_10
 
   pkgs.gh
 	vscodium
@@ -167,6 +173,10 @@ environment.systemPackages = with pkgs; [
 	
 ] ++ (import ./niri-dependencies.nix { inherit pkgs; });
 
+environment.sessionVariables = {
+  DOTNET_ROOT = "${pkgs.dotnet-sdk_10}/share/dotnet";
+};
+
 
 
 programs.fish.enable = true;
@@ -176,7 +186,7 @@ nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 
 security.rtkit.enable = true;
-hardware.pulseaudio.enable = false;
+services.pulseaudio.enable = false;
 
 services.pipewire = {
 	enable = true;
@@ -242,11 +252,15 @@ fonts.packages = with pkgs; [
   };
 
 
+  programs.steam.enable = true;
+hardware.graphics.enable32Bit = true;
 
 
 
 
 
+services.nordvpn.enable = true;
+services.usbmuxd.enable = true;
 
 
 
