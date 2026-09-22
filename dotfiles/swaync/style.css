@@ -1,0 +1,21 @@
+* { 
+ font-family: "Iosevka", monospace; 
+}
+
+.notification, .control-center {
+    background-color: #000000;
+    color: #c0c0c0;
+    border: 1px solid #333333;
+    border-radius: 0px;
+    box-shadow: none;
+}
+
+.notification-content {
+    padding: 12px;
+}
+
+.close-button {
+    background-color: #000000;
+    color: #ffffff;
+    border-radius: 0px;
+}

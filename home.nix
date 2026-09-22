@@ -78,6 +78,30 @@
           end
       end
     '';
+    functions.theme = {
+      description = "Switch kitty palette; fastfetch follows terminal colors";
+      body = ''
+        set -l dir $HOME/.config/kitty/themes
+        if test (count $argv) -eq 0; or contains -- $argv[1] list ls -l --list
+          echo "themes:"
+          for f in $dir/*.conf
+            basename $f .conf
+          end | sort
+          return 0
+        end
+        set -l name $argv[1]
+        set -l src $dir/$name.conf
+        if not test -f $src
+          echo "unknown theme: $name (try: theme list)"
+          return 1
+        end
+        cp $src $HOME/.config/kitty/current-theme.conf
+        if set -q KITTY_WINDOW_ID
+          kitten @ set-colors --all --configured $src
+        end
+        echo $name
+      '';
+    };
     shellAliases = {
       t = "clear; and printf '\\e[3J'; and fastfetch";
       f = "clear; and printf '\\e[3J'";
@@ -116,8 +140,69 @@
     gitCredentialHelper.enable = true;
   };
 
-  # Managed copies of compositor / bar configs (edit under ./dotfiles/)
-  xdg.configFile."niri/config.kdl".source = ./dotfiles/niri/config.kdl;
-  xdg.configFile."waybar/config.jsonc".source = ./dotfiles/waybar/config.jsonc;
-  xdg.configFile."waybar/style.css".source = ./dotfiles/waybar/style.css;
+  # Managed configs (edit under ./dotfiles/)
+  xdg.configFile = {
+    "niri/config.kdl".source = ./dotfiles/niri/config.kdl;
+    "waybar/config.jsonc".source = ./dotfiles/waybar/config.jsonc;
+    "waybar/style.css".source = ./dotfiles/waybar/style.css;
+
+    "kitty/kitty.conf".source = ./dotfiles/kitty/kitty.conf;
+    "kitty/themes" = {
+      source = ./dotfiles/kitty/themes;
+      recursive = true;
+    };
+    "hypr/hyprlock.conf".source = ./dotfiles/hypr/hyprlock.conf;
+    "sunsetr/sunsetr.toml".source = ./dotfiles/sunsetr/sunsetr.toml;
+    "fastfetch/config.jsonc".source = ./dotfiles/fastfetch/config.jsonc;
+    "swaync/style.css".source = ./dotfiles/swaync/style.css;
+    "gtk-3.0/settings.ini".source = ./dotfiles/gtk-3.0/settings.ini;
+    "gtk-4.0/settings.ini".source = ./dotfiles/gtk-4.0/settings.ini;
+    "btop/btop.conf".source = ./dotfiles/btop/btop.conf;
+    "btop/themes/void.theme".source = ./dotfiles/btop/themes/void.theme;
+    "cava/config".source = ./dotfiles/cava/config;
+    "rofi/config.rasi".source = ./dotfiles/rofi/config.rasi;
+    "nvim".source = ./dotfiles/nvim;
+    "VSCodium/User/settings.json".source = ./dotfiles/vscodium/settings.json;
+
+    # NixOS has no /usr/share; point at the qt6ct package color scheme
+    "qt6ct/qt6ct.conf".text = ''
+      [Appearance]
+      color_scheme_path=${pkgs.qt6Packages.qt6ct}/share/qt6ct/colors/darker.conf
+      custom_palette=true
+      standard_dialogs=default
+      style=Fusion
+
+      [Fonts]
+      fixed="Noto Sans,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+      general="Noto Sans,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+
+      [Interface]
+      activate_item_on_single_click=1
+      buttonbox_layout=0
+      cursor_flash_time=1000
+      dialog_buttons_have_icons=1
+      double_click_interval=400
+      gui_effects=@Invalid()
+      keyboard_scheme=2
+      menus_have_icons=true
+      show_shortcuts_in_context_menus=true
+      stylesheets=@Invalid()
+      toolbutton_style=4
+      underline_shortcut=1
+      wheel_scroll_lines=3
+
+      [Troubleshooting]
+      force_raster_widgets=1
+      ignored_applications=@Invalid()
+    '';
+  };
+
+  # Writable palette file (not HM-managed) so `theme` can switch without rebuild
+  home.activation.kittyCurrentTheme = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p "${config.home.homeDirectory}/.config/kitty"
+    if [ ! -e "${config.home.homeDirectory}/.config/kitty/current-theme.conf" ]; then
+      cp ${./dotfiles/kitty/themes/void.conf} "${config.home.homeDirectory}/.config/kitty/current-theme.conf"
+      chmod u+w "${config.home.homeDirectory}/.config/kitty/current-theme.conf"
+    fi
+  '';
 }
