@@ -72,25 +72,9 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile.
-  # You can use https://search.nixos.org/ to find more packages (and options).
-  # environment.systemPackages = with pkgs; [
-  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #   wget
-  # ];
-
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
   # List services that you want to enable:
   programs.niri.enable = true;
-  
+
   services.greetd = {
 	enable = true;
 	settings = {
@@ -99,89 +83,27 @@
 	user = "greeter";
     };
   };
-}; 
+};
 
 services.flatpak.enable = true;
 
 virtualisation.docker.enable = true;
 
+# System / session packages only — user apps live in home.nix
 environment.systemPackages = with pkgs; [
-	kitty
 	tuigreet
-	neovim
 	util-linux
-	waybar
-	git
-	sunsetr
-	rofi
-	
-	fish
-	fastfetch
-	starship
-	btop
-	cmatrix
-	cava
-
-	polkit_gnome
-	wl-clipboard
-	xwayland-satellite
-
-
-  burpsuite
-  caido-desktop
-
-	firefox
-	audacity
-	pkgs.legcord
-  tlp 
- mapscii
-  pavucontrol
-
-  unzip
-
-  clang
-  gcc
-  tree-sitter # Nix-built CLI; Mason's generic linux binary cannot run on NixOS
-  pyright # Mason installs this via npm, which is not on PATH
-  nodejs # so remaining Mason npm packages (docker LS, markdownlint) can install
-  dotnet-sdk_10
-
-  pkgs.gh
-	vscodium
-	code-cursor
-	inputs.claude-desktop.packages.${pkgs.system}.claude-desktop
-
-  killall
-	swaynotificationcenter
-	cliphist
-	hyprlock
-	hyprshot
-	grim
-	slurp
-	playerctl
-	brightnessctl
-	wl-mirror
-	jq
-	pkgs.signal-desktop
-	pkgs.flatpak
-	pkgs.libsForQt5.qt5ct
-	pkgs.qt6Packages.qt6ct
-	inputs.zen-browser.packages.${pkgs.system}.default
-	
-	#libraries
-	fuse2 #na appimages ig
-	
-	#nix věc
+	tlp
+	flatpak
+	fuse2 # for AppImages
 	appimage-run
 
-	
-] ++ (import ./niri-dependencies.nix { inherit pkgs; });
-
-environment.sessionVariables = {
-  DOTNET_ROOT = "${pkgs.dotnet-sdk_10}/share/dotnet";
-};
-
-
+	# Polkit agent for niri session (spawned from niri config)
+	polkit_gnome
+	(writeShellScriptBin "polkit-gnome-authentication-agent-1" ''
+	  exec ${polkit_gnome}/libexec/polkit-gnome-authentication-agent-1 "$@"
+	'')
+];
 
 programs.fish.enable = true;
 users.users.oliver.shell = pkgs.fish;
@@ -230,6 +152,8 @@ services.keyd = {
 fonts.packages = with pkgs; [
   iosevka
   nerd-fonts.symbols-only
+  nerd-fonts.iosevka
+  lexend
 ];
 
 
@@ -244,7 +168,6 @@ fonts.packages = with pkgs; [
   '';
 
   # Add your user to the input group (replace "oliver" with your actual username if different)
-
 
 
 
@@ -275,6 +198,7 @@ nix.gc = {
 };
 
 zramSwap.enable = true;
+
 
 
 
