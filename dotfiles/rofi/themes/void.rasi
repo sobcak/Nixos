@@ -1,0 +1,218 @@
+/******************************************************************************
+ * void — brutalist rofi theme (monochrome, void palette)
+ * Matches niri 0° corners + kitty void + waybar.
+ ******************************************************************************/
+
+* {
+    background:                  #000000f2;
+    background-color:            #00000000;
+    foreground:                  #c5c8c6;
+    border-color:                #555555;
+    separatorcolor:              #444444;
+
+    normal-background:           @background;
+    normal-foreground:           @foreground;
+    alternate-normal-background: @background;
+    alternate-normal-foreground: @foreground;
+
+    selected-normal-background:  #000000;
+    selected-normal-foreground:  #ffffff;
+
+    urgent-background:           @background;
+    urgent-foreground:           #aaaaaa;
+    alternate-urgent-background: @background;
+    alternate-urgent-foreground: #aaaaaa;
+    selected-urgent-background:  #000000;
+    selected-urgent-foreground:  #ffffff;
+
+    active-background:           @background;
+    active-foreground:           #aaaaaa;
+    alternate-active-background: @background;
+    alternate-active-foreground: #aaaaaa;
+    selected-active-background:  #000000;
+    selected-active-foreground:  #ffffff;
+
+    spacing:                     2;
+}
+
+window {
+    background-color: @background;
+    border:           1px;
+    border-color:     @border-color;
+    border-radius:    0;
+    padding:          8px;
+    width:            40em;
+}
+
+mainbox {
+    background-color: @background-color;
+    border:           0;
+    padding:          0;
+    spacing:          0;
+    children:         [ inputbar, message, listview, mode-switcher ];
+}
+
+inputbar {
+    background-color: @background-color;
+    text-color:       @normal-foreground;
+    spacing:          0;
+    padding:          2px 4px 6px 4px;
+    children:         [ prompt, textbox-prompt-colon, entry, case-indicator ];
+}
+
+prompt {
+    background-color: @background-color;
+    text-color:       @normal-foreground;
+    spacing:          0;
+}
+
+textbox-prompt-colon {
+    background-color: @background-color;
+    expand:           false;
+    str:              ":";
+    margin:           0 0.4em 0 0;
+    text-color:       @normal-foreground;
+}
+
+entry {
+    background-color: @background-color;
+    text-color:       @normal-foreground;
+    spacing:          0;
+    placeholder:      "";
+    cursor:           text;
+}
+
+case-indicator {
+    background-color: @background-color;
+    text-color:       @normal-foreground;
+    spacing:          0;
+}
+
+message {
+    background-color: @background-color;
+    border:           1px 0 0 0;
+    border-color:     @separatorcolor;
+    padding:          6px 4px;
+}
+
+textbox {
+    background-color: @background-color;
+    text-color:       @foreground;
+}
+
+listview {
+    background-color: @background-color;
+    fixed-height:     true;
+    lines:            12;
+    columns:          1;
+    border:           1px 0 0 0;
+    border-color:     @separatorcolor;
+    spacing:          0;
+    scrollbar:        true;
+    padding:          4px 0 0 0;
+    cycle:            true;
+}
+
+element {
+    background-color: @background-color;
+    border:           1px;
+    border-color:     @background-color;
+    border-radius:    0;
+    padding:          4px 8px;
+    spacing:          12px;
+    children:         [ element-icon, element-text ];
+}
+
+element-icon {
+    background-color: inherit;
+    size:             1.2em;
+    padding:          0;
+}
+
+element-text {
+    background-color: inherit;
+    text-color:       inherit;
+    vertical-align:   0.5;
+}
+
+element normal.normal {
+    background-color: @normal-background;
+    text-color:       @normal-foreground;
+}
+
+element normal.urgent {
+    background-color: @urgent-background;
+    text-color:       @urgent-foreground;
+}
+
+element normal.active {
+    background-color: @active-background;
+    text-color:       @active-foreground;
+}
+
+/* Selection: black rectangle outlined in foreground grey */
+element selected.normal {
+    background-color: @selected-normal-background;
+    text-color:       @selected-normal-foreground;
+    border-color:     @foreground;
+}
+
+element selected.urgent {
+    background-color: @selected-urgent-background;
+    text-color:       @selected-urgent-foreground;
+    border-color:     @foreground;
+}
+
+element selected.active {
+    background-color: @selected-active-background;
+    text-color:       @selected-active-foreground;
+    border-color:     @foreground;
+}
+
+element alternate.normal {
+    background-color: @alternate-normal-background;
+    text-color:       @alternate-normal-foreground;
+}
+
+element alternate.urgent {
+    background-color: @alternate-urgent-background;
+    text-color:       @alternate-urgent-foreground;
+}
+
+element alternate.active {
+    background-color: @alternate-active-background;
+    text-color:       @alternate-active-foreground;
+}
+
+scrollbar {
+    background-color: @background-color;
+    width:            4px;
+    border:           0;
+    handle-width:     4px;
+    handle-color:     #444444;
+    padding:          0;
+}
+
+mode-switcher {
+    background-color: @background-color;
+    border:           1px 0 0 0;
+    border-color:     @separatorcolor;
+    spacing:          0;
+    padding:          4px 0 0 0;
+}
+
+button {
+    background-color: @background-color;
+    text-color:       #555555;
+    border:           1px;
+    border-color:     @background-color;
+    border-radius:    0;
+    padding:          4px 8px;
+    spacing:          0;
+}
+
+button selected {
+    background-color: #000000;
+    text-color:       #ffffff;
+    border-color:     @foreground;
+}

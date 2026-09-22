@@ -1,0 +1,3 @@
+/* amber — brutalist rofi theme, kitty amber palette */
+@import "colors/amber"
+@import "shared/layout"

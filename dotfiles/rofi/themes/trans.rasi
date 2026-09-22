@@ -1,0 +1,3 @@
+/* trans — brutalist rofi theme, kitty trans palette */
+@import "colors/trans"
+@import "shared/layout"

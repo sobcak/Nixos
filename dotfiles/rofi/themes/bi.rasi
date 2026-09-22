@@ -1,0 +1,3 @@
+/* bi — brutalist rofi theme, kitty bi palette */
+@import "colors/bi"
+@import "shared/layout"

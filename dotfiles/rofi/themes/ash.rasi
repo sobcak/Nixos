@@ -1,0 +1,3 @@
+/* ash — brutalist rofi theme, kitty ash palette */
+@import "colors/ash"
+@import "shared/layout"

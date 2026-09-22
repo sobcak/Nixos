@@ -1,0 +1,27 @@
+/* trans — generated from kitty/themes/trans.conf by sync-themes.sh */
+
+* {
+    bg:         #000000f2;
+    fg:         #e8e8e8;
+
+    c0:        #000000;
+    c1:        #F5A9B8;
+    c2:        #5BCEFA;
+    c3:        #F5A9B8;
+    c4:        #5BCEFA;
+    c5:        #F5A9B8;
+    c6:        #5BCEFA;
+    c7:        #e8e8e8;
+    c8:        #444444;
+    c9:        #FFC1D0;
+    c10:       #8ADFFF;
+    c11:       #FFC1D0;
+    c12:       #8ADFFF;
+    c13:       #FFC1D0;
+    c14:       #8ADFFF;
+    c15:       #ffffff;
+
+    sel:        #5BCEFA;
+    sel-fg:     #000000;
+    sel-border: #5BCEFA;
+}

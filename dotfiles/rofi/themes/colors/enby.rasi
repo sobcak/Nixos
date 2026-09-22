@@ -1,0 +1,27 @@
+/* enby — generated from kitty/themes/enby.conf by sync-themes.sh */
+
+* {
+    bg:         #000000f2;
+    fg:         #e8e8e8;
+
+    c0:        #000000;
+    c1:        #FCF434;
+    c2:        #9C59D1;
+    c3:        #FCF434;
+    c4:        #9C59D1;
+    c5:        #9C59D1;
+    c6:        #FCF434;
+    c7:        #e8e8e8;
+    c8:        #2a2a2a;
+    c9:        #FFF76A;
+    c10:       #C48BFF;
+    c11:       #FFF76A;
+    c12:       #C48BFF;
+    c13:       #C48BFF;
+    c14:       #FFF76A;
+    c15:       #ffffff;
+
+    sel:        #9C59D1;
+    sel-fg:     #ffffff;
+    sel-border: #9C59D1;
+}

@@ -1,0 +1,3 @@
+/* mlm — brutalist rofi theme, kitty mlm palette */
+@import "colors/mlm"
+@import "shared/layout"

@@ -1,0 +1,3 @@
+/* matrix — brutalist rofi theme, kitty matrix palette */
+@import "colors/matrix"
+@import "shared/layout"

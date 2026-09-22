@@ -1,0 +1,3 @@
+/* enby — brutalist rofi theme, kitty enby palette */
+@import "colors/enby"
+@import "shared/layout"

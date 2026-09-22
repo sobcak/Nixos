@@ -1,0 +1,3 @@
+/* ember — brutalist rofi theme, kitty ember palette */
+@import "colors/ember"
+@import "shared/layout"

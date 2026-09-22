@@ -1,0 +1,27 @@
+/* bi — generated from kitty/themes/bi.conf by sync-themes.sh */
+
+* {
+    bg:         #000000f2;
+    fg:         #c5c8c6;
+
+    c0:        #000000;
+    c1:        #D60270;
+    c2:        #9B4F96;
+    c3:        #D60270;
+    c4:        #0038A8;
+    c5:        #9B4F96;
+    c6:        #0038A8;
+    c7:        #c5c8c6;
+    c8:        #444444;
+    c9:        #FF4FA0;
+    c10:       #C77FB8;
+    c11:       #FF4FA0;
+    c12:       #5B8DEF;
+    c13:       #C77FB8;
+    c14:       #5B8DEF;
+    c15:       #ffffff;
+
+    sel:        #9B4F96;
+    sel-fg:     #ffffff;
+    sel-border: #9B4F96;
+}

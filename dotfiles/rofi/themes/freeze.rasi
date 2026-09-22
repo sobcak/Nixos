@@ -1,0 +1,3 @@
+/* freeze — brutalist rofi theme, kitty freeze palette */
+@import "colors/freeze"
+@import "shared/layout"

@@ -1,0 +1,27 @@
+/* lesbian — generated from kitty/themes/lesbian.conf by sync-themes.sh */
+
+* {
+    bg:         #000000f2;
+    fg:         #e8e8e8;
+
+    c0:        #000000;
+    c1:        #D52D00;
+    c2:        #A30262;
+    c3:        #EF7627;
+    c4:        #D162A4;
+    c5:        #B55690;
+    c6:        #FF9A56;
+    c7:        #e8e8e8;
+    c8:        #444444;
+    c9:        #FF5A2E;
+    c10:       #D63D8F;
+    c11:       #FF9A55;
+    c12:       #E891C3;
+    c13:       #D97BB0;
+    c14:       #FFB87A;
+    c15:       #ffffff;
+
+    sel:        #A30262;
+    sel-fg:     #ffffff;
+    sel-border: #A30262;
+}

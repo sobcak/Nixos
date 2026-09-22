@@ -1,0 +1,3 @@
+/* aro — brutalist rofi theme, kitty aro palette */
+@import "colors/aro"
+@import "shared/layout"

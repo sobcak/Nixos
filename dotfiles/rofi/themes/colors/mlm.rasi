@@ -1,0 +1,27 @@
+/* mlm — generated from kitty/themes/mlm.conf by sync-themes.sh */
+
+* {
+    bg:         #000000f2;
+    fg:         #e8e8e8;
+
+    c0:        #000000;
+    c1:        #078D70;
+    c2:        #078D70;
+    c3:        #98E8C1;
+    c4:        #5049CC;
+    c5:        #7BADE2;
+    c6:        #3D1A78;
+    c7:        #e8e8e8;
+    c8:        #444444;
+    c9:        #26CEAA;
+    c10:       #26CEAA;
+    c11:       #C0F0DA;
+    c12:       #7A74E8;
+    c13:       #A8CFF0;
+    c14:       #6B45B0;
+    c15:       #ffffff;
+
+    sel:        #078D70;
+    sel-fg:     #ffffff;
+    sel-border: #078D70;
+}

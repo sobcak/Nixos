@@ -1,0 +1,3 @@
+/* pan — brutalist rofi theme, kitty pan palette */
+@import "colors/pan"
+@import "shared/layout"

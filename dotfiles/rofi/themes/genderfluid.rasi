@@ -1,0 +1,3 @@
+/* genderfluid — brutalist rofi theme, kitty genderfluid palette */
+@import "colors/genderfluid"
+@import "shared/layout"

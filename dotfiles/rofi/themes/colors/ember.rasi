@@ -1,0 +1,27 @@
+/* ember — generated from kitty/themes/ember.conf by sync-themes.sh */
+
+* {
+    bg:         #000000f2;
+    fg:         #c5c8c6;
+
+    c0:        #000000;
+    c1:        #ff4500;
+    c2:        #c5c8c6;
+    c3:        #ff8c42;
+    c4:        #c5c8c6;
+    c5:        #ff4500;
+    c6:        #c5c8c6;
+    c7:        #c5c8c6;
+    c8:        #444444;
+    c9:        #ff6a33;
+    c10:       #c5c8c6;
+    c11:       #ffb07a;
+    c12:       #c5c8c6;
+    c13:       #ff6a33;
+    c14:       #c5c8c6;
+    c15:       #c5c8c6;
+
+    sel:        #ff4500;
+    sel-fg:     #000000;
+    sel-border: #ff4500;
+}

@@ -1,0 +1,27 @@
+/* aro — generated from kitty/themes/aro.conf by sync-themes.sh */
+
+* {
+    bg:         #000000f2;
+    fg:         #e8e8e8;
+
+    c0:        #000000;
+    c1:        #3DA542;
+    c2:        #3DA542;
+    c3:        #A7D379;
+    c4:        #A9A9A9;
+    c5:        #A7D379;
+    c6:        #3DA542;
+    c7:        #e8e8e8;
+    c8:        #333333;
+    c9:        #5FD464;
+    c10:       #5FD464;
+    c11:       #C5E8A0;
+    c12:       #C8C8C8;
+    c13:       #C5E8A0;
+    c14:       #5FD464;
+    c15:       #ffffff;
+
+    sel:        #3DA542;
+    sel-fg:     #000000;
+    sel-border: #3DA542;
+}

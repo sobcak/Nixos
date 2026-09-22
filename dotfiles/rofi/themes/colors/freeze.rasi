@@ -1,0 +1,27 @@
+/* freeze — generated from kitty/themes/freeze.conf by sync-themes.sh */
+
+* {
+    bg:         #000000f2;
+    fg:         #c5c8c6;
+
+    c0:        #000000;
+    c1:        #4fc3f7;
+    c2:        #c5c8c6;
+    c3:        #81d4fa;
+    c4:        #29b6f6;
+    c5:        #4fc3f7;
+    c6:        #29b6f6;
+    c7:        #c5c8c6;
+    c8:        #444444;
+    c9:        #81d4fa;
+    c10:       #c5c8c6;
+    c11:       #b3e5fc;
+    c12:       #4fc3f7;
+    c13:       #81d4fa;
+    c14:       #4fc3f7;
+    c15:       #c5c8c6;
+
+    sel:        #29b6f6;
+    sel-fg:     #000000;
+    sel-border: #29b6f6;
+}

@@ -1,0 +1,27 @@
+/* matrix — generated from kitty/themes/matrix.conf by sync-themes.sh */
+
+* {
+    bg:         #000000f2;
+    fg:         #00ff41;
+
+    c0:        #000000;
+    c1:        #008f11;
+    c2:        #00ff41;
+    c3:        #00c832;
+    c4:        #008f11;
+    c5:        #00c832;
+    c6:        #00ff41;
+    c7:        #00ff41;
+    c8:        #003b00;
+    c9:        #00ff41;
+    c10:       #33ff66;
+    c11:       #00ff41;
+    c12:       #00c832;
+    c13:       #33ff66;
+    c14:       #66ff88;
+    c15:       #b8ffc8;
+
+    sel:        #00ff41;
+    sel-fg:     #000000;
+    sel-border: #00ff41;
+}

@@ -1,0 +1,27 @@
+/* gay — generated from kitty/themes/gay.conf by sync-themes.sh */
+
+* {
+    bg:         #000000f2;
+    fg:         #e8e8e8;
+
+    c0:        #000000;
+    c1:        #E40303;
+    c2:        #008026;
+    c3:        #FF8C00;
+    c4:        #24408E;
+    c5:        #732982;
+    c6:        #008026;
+    c7:        #e8e8e8;
+    c8:        #444444;
+    c9:        #FF4444;
+    c10:       #33B84F;
+    c11:       #FFB347;
+    c12:       #5B7BD5;
+    c13:       #A855C0;
+    c14:       #33B84F;
+    c15:       #ffffff;
+
+    sel:        #732982;
+    sel-fg:     #ffffff;
+    sel-border: #732982;
+}

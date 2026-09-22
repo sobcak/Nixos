@@ -1,0 +1,3 @@
+/* lesbian — brutalist rofi theme, kitty lesbian palette */
+@import "colors/lesbian"
+@import "shared/layout"

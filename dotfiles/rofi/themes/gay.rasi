@@ -1,0 +1,3 @@
+/* gay — brutalist rofi theme, kitty gay palette */
+@import "colors/gay"
+@import "shared/layout"

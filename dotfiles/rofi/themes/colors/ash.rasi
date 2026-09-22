@@ -1,0 +1,27 @@
+/* ash — generated from kitty/themes/ash.conf by sync-themes.sh */
+
+* {
+    bg:         #000000f2;
+    fg:         #c5c8c6;
+
+    c0:        #000000;
+    c1:        #888888;
+    c2:        #c5c8c6;
+    c3:        #aaaaaa;
+    c4:        #c5c8c6;
+    c5:        #aaaaaa;
+    c6:        #c5c8c6;
+    c7:        #c5c8c6;
+    c8:        #444444;
+    c9:        #aaaaaa;
+    c10:       #c5c8c6;
+    c11:       #aaaaaa;
+    c12:       #c5c8c6;
+    c13:       #aaaaaa;
+    c14:       #c5c8c6;
+    c15:       #c5c8c6;
+
+    sel:        #c5c8c6;
+    sel-fg:     #000000;
+    sel-border: #c5c8c6;
+}

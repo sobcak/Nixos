@@ -1,0 +1,187 @@
+/******************************************************************************
+ * Shared brutalist layout for the colour themes.
+ * Square corners, 1px rules, flat fills — matches niri and waybar.
+ *
+ * Expects a palette file (themes/colors/<name>.rasi) to be imported first,
+ * defining: bg fg c0..c15 sel sel-fg sel-border
+ *
+ * Colour slots are spread across the UI so a full 16-colour palette shows up:
+ *   c0  prompt text, text on selected urgent/active rows
+ *   c1  urgent row              c9   selected urgent fill
+ *   c2  active row              c10  selected active fill
+ *   c3  prompt colon            c11  entry placeholder
+ *   c4  prompt block fill       c12  match counter
+ *   c5  mode buttons            c13  scrollbar handle
+ *   c6  mode button fill, message rule
+ *   c7  row text, entry text    c14  message text
+ *   c8  window border, rules    c15  (theme sel-fg default)
+ ******************************************************************************/
+
+* {
+    background-color: transparent;
+    text-color:       @fg;
+    margin:           0;
+    padding:          0;
+    spacing:          0;
+}
+
+window {
+    background-color: @bg;
+    border:           1px;
+    border-color:     @c8;
+    border-radius:    0;
+    padding:          8px;
+    width:            40em;
+}
+
+mainbox {
+    children: [ inputbar, message, listview, mode-switcher ];
+}
+
+inputbar {
+    padding:  2px 4px 6px 4px;
+    spacing:  0;
+    children: [ prompt, textbox-prompt-colon, entry, num-filtered-rows, textbox-num-sep, num-rows, case-indicator ];
+}
+
+prompt {
+    background-color: @c4;
+    text-color:       @c0;
+    padding:          0 6px;
+}
+
+textbox-prompt-colon {
+    expand:     false;
+    str:        ":";
+    margin:     0 0.4em 0 0.4em;
+    text-color: @c3;
+}
+
+entry {
+    text-color:        @c7;
+    placeholder:       "";
+    placeholder-color: @c11;
+    cursor:            text;
+}
+
+num-filtered-rows {
+    expand:     false;
+    text-color: @c12;
+}
+
+textbox-num-sep {
+    expand:     false;
+    str:        "/";
+    text-color: @c3;
+}
+
+num-rows {
+    expand:     false;
+    text-color: @c12;
+}
+
+case-indicator {
+    text-color: @c5;
+}
+
+message {
+    border:       1px 0 0 0;
+    border-color: @c6;
+    padding:      6px 4px;
+}
+
+textbox {
+    text-color: @c14;
+}
+
+listview {
+    fixed-height: true;
+    lines:        12;
+    columns:      1;
+    border:       1px 0 0 0;
+    border-color: @c8;
+    padding:      4px 0 0 0;
+    spacing:      0;
+    scrollbar:    true;
+    cycle:        true;
+}
+
+element {
+    border:        1px;
+    border-color:  transparent;
+    border-radius: 0;
+    padding:       4px 8px;
+    spacing:       12px;
+    children:      [ element-icon, element-text ];
+}
+
+element-icon {
+    background-color: inherit;
+    size:             1.2em;
+}
+
+element-text {
+    background-color: inherit;
+    text-color:       inherit;
+    vertical-align:   0.5;
+}
+
+element normal.normal,
+element alternate.normal {
+    text-color: @c7;
+}
+
+element normal.urgent,
+element alternate.urgent {
+    text-color: @c1;
+}
+
+element normal.active,
+element alternate.active {
+    text-color: @c2;
+}
+
+element selected.normal {
+    background-color: @sel;
+    text-color:       @sel-fg;
+    border-color:     @sel-border;
+}
+
+element selected.urgent {
+    background-color: @c9;
+    text-color:       @c0;
+    border-color:     @c9;
+}
+
+element selected.active {
+    background-color: @c10;
+    text-color:       @c0;
+    border-color:     @c10;
+}
+
+scrollbar {
+    width:        4px;
+    handle-width: 4px;
+    handle-color: @c13;
+    border:       0;
+}
+
+mode-switcher {
+    border:       1px 0 0 0;
+    border-color: @c8;
+    padding:      4px 0 0 0;
+}
+
+button {
+    text-color:    @c5;
+    border:        1px;
+    border-color:  transparent;
+    border-radius: 0;
+    padding:       4px 8px;
+}
+
+button selected {
+    background-color: @c6;
+    text-color:       @c0;
+    border-color:     @c6;
+}

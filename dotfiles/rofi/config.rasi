@@ -2,54 +2,13 @@ configuration {
     modi: "drun,run,window";
     show-icons: true;
     icon-theme: "Papirus-Dark";
-    display-drun: "app ❯";
-    display-run: "run ❯";
+    display-drun: "app";
+    display-run: "run";
+    display-window: "win";
     font: "Iosevka Nerd Font 11";
+    drun-display-format: "{name}";
+    window-format: "{w} · {c} · {t}";
 }
 
-* {
-    background-color: transparent;
-    text-color: #c5c8c6;
-    margin: 0; padding: 0;
-}
-
-window {
-    background-color: rgba(0, 0, 0, 0.95);
-    border: 2px;
-    border-color: #444444;
-    width: 600px;
-    padding: 20px;
-}
-
-inputbar {
-    padding: 0 0 15px 0;
-    children: [prompt, entry];
-}
-
-prompt { text-color: #555555; padding: 0 10px 0 0; }
-
-listview {
-    lines: 6;
-    fixed-height: true;
-    spacing: 8px;
-}
-
-element { 
-    padding: 8px; 
-    spacing: 12px; 
-    border: 1px;
-    border-color: transparent; /* Invisible when not selected */
-}
-
-element-icon { size: 22px; }
-
-/* Selection: Only a border, no white background */
-element selected {
-    border-color: #c5c8c6;
-    text-color: #ffffff; /* Brightens text slightly for focus */
-}
-
-/* Ensure icon background doesn't change */
-element-icon selected {
-    background-color: transparent;
-}
+/* Palette + layout. current-theme.rasi is writable and swapped by `theme <name>`. */
+@theme "current-theme.rasi"

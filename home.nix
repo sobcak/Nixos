@@ -24,7 +24,11 @@
     legcord
     mapscii
     unzip
-
+    alacritty
+    asciiquarium
+    ranger
+    feh
+    termshark
     # Both ship bin/ld.gold; gcc-wrapper is already priority 10, so hiPrio gcc wins
     clang
     (lib.hiPrio gcc)
@@ -82,6 +86,7 @@
       description = "Switch kitty palette; fastfetch follows terminal colors";
       body = ''
         set -l dir $HOME/.config/kitty/themes
+        set -l rofi_dir $HOME/.config/rofi/themes
         if test (count $argv) -eq 0; or contains -- $argv[1] list ls -l --list
           echo "themes:"
           for f in $dir/*.conf
@@ -98,6 +103,9 @@
         cp $src $HOME/.config/kitty/current-theme.conf
         if set -q KITTY_WINDOW_ID
           kitten @ set-colors --all --configured $src
+        end
+        if test -f $rofi_dir/$name.rasi
+          printf '@import "themes/%s"\n' $name > $HOME/.config/rofi/current-theme.rasi
         end
         echo $name
       '';
@@ -161,6 +169,10 @@
     "btop/themes/void.theme".source = ./dotfiles/btop/themes/void.theme;
     "cava/config".source = ./dotfiles/cava/config;
     "rofi/config.rasi".source = ./dotfiles/rofi/config.rasi;
+    "rofi/themes" = {
+      source = ./dotfiles/rofi/themes;
+      recursive = true;
+    };
     "nvim".source = ./dotfiles/nvim;
     "VSCodium/User/settings.json".source = ./dotfiles/vscodium/settings.json;
 
@@ -203,6 +215,14 @@
     if [ ! -e "${config.home.homeDirectory}/.config/kitty/current-theme.conf" ]; then
       cp ${./dotfiles/kitty/themes/void.conf} "${config.home.homeDirectory}/.config/kitty/current-theme.conf"
       chmod u+w "${config.home.homeDirectory}/.config/kitty/current-theme.conf"
+    fi
+  '';
+
+  # Same trick for rofi: one writable line selecting the active theme
+  home.activation.rofiCurrentTheme = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p "${config.home.homeDirectory}/.config/rofi"
+    if [ ! -e "${config.home.homeDirectory}/.config/rofi/current-theme.rasi" ]; then
+      echo '@import "themes/void"' > "${config.home.homeDirectory}/.config/rofi/current-theme.rasi"
     fi
   '';
 }

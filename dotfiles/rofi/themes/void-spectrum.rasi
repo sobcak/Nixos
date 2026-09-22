@@ -1,0 +1,3 @@
+/* void-spectrum — brutalist rofi theme, kitty void-spectrum palette */
+@import "colors/void-spectrum"
+@import "shared/layout"

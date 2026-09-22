@@ -1,0 +1,27 @@
+/* void-spectrum — generated from kitty/themes/void-spectrum.conf by sync-themes.sh */
+
+* {
+    bg:         #000000f2;
+    fg:         #c5c8c6;
+
+    c0:        #000000;
+    c1:        #ff0000;
+    c2:        #d9dcda;
+    c3:        #cfd2d0;
+    c4:        #6b6b6b;
+    c5:        #b3b3b3;
+    c6:        #949494;
+    c7:        #c5c8c6;
+    c8:        #555555;
+    c9:        #ff5555;
+    c10:       #e3e6e4;
+    c11:       #eef0ef;
+    c12:       #808080;
+    c13:       #bebebe;
+    c14:       #a6a6a6;
+    c15:       #ffffff;
+
+    sel:        #c5c8c6;
+    sel-fg:     #000000;
+    sel-border: #c5c8c6;
+}
