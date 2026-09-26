@@ -1,5 +1,14 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, osConfig, ... }:
 
+let
+  # Shared niri/gtk configs; cursor size differs by host DPI/viewing distance.
+  # ThinkPad (eDP @ 1.25) keeps 24; desktop ~93 DPI monitors need smaller.
+  cursorSize =
+    if osConfig.networking.hostName == "olinux-desktop" then 16 else 24;
+  withCursorSize = file:
+    builtins.replaceStrings [ "__CURSOR_SIZE__" ] [ (toString cursorSize) ]
+      (builtins.readFile file);
+in
 {
   home.username = "oliver";
   home.homeDirectory = "/home/oliver";
@@ -25,6 +34,7 @@
     libimobiledevice
     usbmuxd
     ideviceinstaller
+    ventoy
 
     audacity
     legcord
@@ -167,7 +177,7 @@
 
   # Managed configs (edit under ./dotfiles/)
   xdg.configFile = {
-    "niri/config.kdl".source = ./dotfiles/niri/config.kdl;
+    "niri/config.kdl".text = withCursorSize ./dotfiles/niri/config.kdl;
     "waybar/config.jsonc".source = ./dotfiles/waybar/config.jsonc;
     "waybar/style.css".source = ./dotfiles/waybar/style.css;
 
@@ -180,8 +190,8 @@
     "sunsetr/sunsetr.toml".source = ./dotfiles/sunsetr/sunsetr.toml;
     "fastfetch/config.jsonc".source = ./dotfiles/fastfetch/config.jsonc;
     "swaync/style.css".source = ./dotfiles/swaync/style.css;
-    "gtk-3.0/settings.ini".source = ./dotfiles/gtk-3.0/settings.ini;
-    "gtk-4.0/settings.ini".source = ./dotfiles/gtk-4.0/settings.ini;
+    "gtk-3.0/settings.ini".text = withCursorSize ./dotfiles/gtk-3.0/settings.ini;
+    "gtk-4.0/settings.ini".text = withCursorSize ./dotfiles/gtk-4.0/settings.ini;
     "btop/btop.conf".source = ./dotfiles/btop/btop.conf;
     "btop/themes/void.theme".source = ./dotfiles/btop/themes/void.theme;
     "cava/config".source = ./dotfiles/cava/config;

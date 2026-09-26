@@ -18,29 +18,17 @@ prefer-no-csd
 
 
 
-// Outputs are matched by connector name ("HDMI-A-1") OR by the
-// "Make Model Serial" string shown in `niri msg outputs`. Niri uses the
-// FIRST matching block in file order, so identity-matched monitors must
-// come before the generic HDMI-A-1 fallback at the bottom.
-//
-// Coordinate space (logical px): ThinkPad panel at the origin, the Philips
-// directly above it, the vertical monitor to the right of the Philips.
-// Absent outputs are simply skipped, so the same blocks serve:
-//   - ThinkPad alone:              eDP-1
-//   - ThinkPad + Philips on HDMI:  eDP-1, Philips above
-//   - ThinkPad + projector:        eDP-1, fallback HDMI-A-1 above
-//   - Desktop:                     Philips on DP-1..DP-3, vertical on HDMI-A-1
 
-// ThinkPad built-in panel (1920x1200 @ 1.25 = 1536x960 logical)
 output "eDP-1" {
     mode "1920x1200@60.00"
     scale 1.25
     position x=0 y=0
 }
 
-// Philips main monitor. Identity match so it works on HDMI-A-1 (ThinkPad)
-// and on whichever DP-n the desktop GPU gives it.
-// TODO: replace with the exact "Make Model Serial" from `niri msg outputs`.
+
+
+
+
 output "Philips Consumer Electronics Company 32M2C5501 AU02430002133" {
     mode "2560x1440@144.001"
     scale 1.0
@@ -48,9 +36,6 @@ output "Philips Consumer Electronics Company 32M2C5501 AU02430002133" {
     focus-at-startup
 }
 
-// Desktop vertical secondary. Identity match so the generic HDMI-A-1 block
-// below never captures it. Placed to the right of the Philips, top-aligned.
-// TODO: replace with the exact "Make Model Serial" from `niri msg outputs`.
 output "HP Inc. HP E24i G4 CNK3020FB7" {
     transform "270"
     position x=2560 y=-1440
@@ -59,13 +44,9 @@ output "HP Inc. HP E24i G4 CNK3020FB7" {
     }
 }
 
-// Fallback: anything else on the ThinkPad's HDMI port (projector, TV, ...).
-// Sits above eDP-1 assuming a 1080-tall logical output; if the mode is not
-// supported niri picks one automatically, and if the position overlaps
-// niri auto-places it to the right instead.
 output "HDMI-A-1" {
     mode "2560x1440@144.001"
-    position x=0 y=-1080
+    position x=0 y=-1200
 }
 
 
@@ -116,6 +97,11 @@ spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
 spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
 spawn-at-startup "kitty" "--class" "startup-kitty" "-e" "fish" "-c" "fastfetch; exec fish"
 
+// __CURSOR_SIZE__ is substituted per-host in home.nix (desktop vs thinkpad DPI).
+cursor {
+    xcursor-size __CURSOR_SIZE__
+}
+
 environment {
     QT_QPA_PLATFORMTHEME "qt5ct:qt6ct"
     QT_QPA_PLATFORM "wayland"
@@ -128,7 +114,6 @@ environment {
     XDG_CURRENT_DESKTOP "niri"
     XDG_SESSION_TYPE "wayland"
     XDG_SESSION_DESKTOP "niri"
-    XCURSOR_SIZE "24"
     DISPLAY ":0"
     ELECTRON_OZONE_PLATFORM_HINT "auto"
 }
