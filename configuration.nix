@@ -97,7 +97,7 @@ environment.systemPackages = with pkgs; [
 	flatpak
 	fuse2 # for AppImages
 	appimage-run
-
+  bluez 
 	# Polkit agent for niri session (spawned from niri config)
 	polkit_gnome
 	(writeShellScriptBin "polkit-gnome-authentication-agent-1" ''
@@ -123,7 +123,12 @@ services.pipewire = {
 };
 
 
+services.tlp.enable = true;
 
+hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = false;
+  };
 
 services.fprintd.enable = true;
 security.pam.services.greetd.fprintAuth = true;
@@ -200,7 +205,7 @@ nix.gc = {
 zramSwap.enable = true;
 
 
-
+services.blueman.enable = true;
 
 
 

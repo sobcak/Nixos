@@ -19,16 +19,33 @@
     burpsuite
     caido-desktop
 
-    firefox
+    brave
+    nautilus
+    iloader
+    libimobiledevice
+    usbmuxd
+    ideviceinstaller
+
     audacity
     legcord
     mapscii
     unzip
+    ripgrep
     alacritty
     asciiquarium
     ranger
     feh
     termshark
+    hashcat
+    john
+    nmap
+    metasploit
+    wifite2
+    tcpdump
+    aircrack-ng
+    ghidra
+    theharvester
+    protontricks
     # Both ship bin/ld.gold; gcc-wrapper is already priority 10, so hiPrio gcc wins
     clang
     (lib.hiPrio gcc)
