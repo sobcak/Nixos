@@ -11,21 +11,28 @@
     claude-desktop.url = "github:briossant/claude-desktop-nix";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
-    nixosConfigurations.olinux = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs; }; # Passes inputs into your modules
-      modules = [
-        ./configuration.nix
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = { inherit inputs; };
-          home-manager.backupFileExtension = "hm-backup";
-          home-manager.users.oliver = import ./home.nix;
-        }
-      ];
+  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+    let
+      mkHost = host: nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; }; # Passes inputs into your modules
+        modules = [
+          ./modules/common.nix
+          ./hosts/${host}
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.backupFileExtension = "hm-backup";
+            home-manager.users.oliver = import ./home.nix;
+          }
+        ];
+      };
+    in {
+      nixosConfigurations = {
+        olinux = mkHost "olinux";
+        olinux-desktop = mkHost "olinux-desktop";
+      };
     };
-  };
 }
