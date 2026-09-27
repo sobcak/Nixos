@@ -34,8 +34,6 @@ in
     libimobiledevice
     usbmuxd
     ideviceinstaller
-    ventoy
-
     audacity
     legcord
     mapscii
