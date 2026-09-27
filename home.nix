@@ -34,16 +34,10 @@ in
     libimobiledevice
     usbmuxd
     ideviceinstaller
-<<<<<<< Updated upstream
-=======
-    ventoy
 
     # Dev Věci pro mami web
     rclone
 
-
-
->>>>>>> Stashed changes
     audacity
     legcord
     mapscii
