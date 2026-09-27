@@ -10,6 +10,7 @@ input {
         dwt
     }
 focus-follows-mouse max-scroll-amount="25%"
+    warp-mouse-to-focus
   }
 
 prefer-no-csd
