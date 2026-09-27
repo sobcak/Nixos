@@ -32,13 +32,14 @@ output "eDP-1" {
 
 output "Philips Consumer Electronics Company 32M2C5501 AU02430002133" {
     mode "2560x1440@144.001"
-    scale 1.0
+    scale 1.25
     position x=0 y=-1440
     focus-at-startup
 }
 
 output "HP Inc. HP E24i G4 CNK3020FB7" {
     transform "270"
+    scale 1.25
     position x=2560 y=-1440
     layout {
         default-column-width { proportion 1.0; }
@@ -47,6 +48,7 @@ output "HP Inc. HP E24i G4 CNK3020FB7" {
 
 output "HDMI-A-1" {
     mode "2560x1440@144.001"
+    scale 1.25
     position x=0 y=-1200
 }
 
@@ -99,7 +101,9 @@ spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
 spawn-at-startup "kitty" "--class" "startup-kitty" "-e" "fish" "-c" "fastfetch; exec fish"
 
 // __CURSOR_SIZE__ is substituted per-host in home.nix (desktop vs thinkpad DPI).
+// Theme must be installed (home.pointerCursor); missing theme → huge niri fallback.
 cursor {
+    xcursor-theme "Adwaita"
     xcursor-size __CURSOR_SIZE__
 }
 

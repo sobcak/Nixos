@@ -1,10 +1,9 @@
 { config, lib, pkgs, inputs, osConfig, ... }:
 
 let
-  # Shared niri/gtk configs; cursor size differs by host DPI/viewing distance.
-  # ThinkPad (eDP @ 1.25) keeps 24; desktop ~93 DPI monitors need smaller.
-  cursorSize =
-    if osConfig.networking.hostName == "olinux-desktop" then 16 else 24;
+  # Shared niri/gtk configs. Adwaita ships 24/30/36/… (no 16); size 24 is native.
+  # ThinkPad eDP @ 1.25 loads ~30px physical; desktop scale 1.0 stays 24px.
+  cursorSize = 24;
   withCursorSize = file:
     builtins.replaceStrings [ "__CURSOR_SIZE__" ] [ (toString cursorSize) ]
       (builtins.readFile file);
@@ -13,6 +12,15 @@ in
   home.username = "oliver";
   home.homeDirectory = "/home/oliver";
   home.stateVersion = "26.05";
+
+  # Puts Adwaita on XCURSOR_PATH; without this niri uses a huge software fallback.
+  home.pointerCursor = {
+    name = "Adwaita";
+    package = pkgs.adwaita-icon-theme;
+    size = cursorSize;
+    gtk.enable = true;
+    x11.enable = true;
+  };
 
   home.packages = with pkgs; [
     neovim
