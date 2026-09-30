@@ -35,8 +35,8 @@ in
 
     burpsuite
     caido-desktop
+    protonmail-desktop
 
-    brave
     nautilus
     iloader
     libimobiledevice
@@ -45,6 +45,7 @@ in
 
     # Dev Věci pro mami web
     rclone
+    gimp
 
     audacity
     legcord
@@ -76,11 +77,11 @@ in
 
     vscodium
     code-cursor
-    inputs.claude-desktop.packages.${pkgs.system}.claude-desktop
 
     killall
     signal-desktop
     inputs.zen-browser.packages.${pkgs.system}.default
+    brave
   ] ++ (import ./niri-dependencies.nix { inherit pkgs; });
 
   home.sessionVariables = {

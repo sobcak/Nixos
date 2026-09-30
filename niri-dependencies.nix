@@ -23,6 +23,7 @@ with pkgs; [
   rofi
   kitty
   hyprlock
+  hypridle
   hyprshot
   grim
   slurp
