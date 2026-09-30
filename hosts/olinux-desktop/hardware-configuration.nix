@@ -26,9 +26,12 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
-  swapDevices =
-    [ { device = "/dev/mapper/luks-5e0701c8-00ca-4d08-8f2b-07232ea74946"; }
-    ];
+  # Encrypted swap partition exists (nvme0n1p3 / UUID 5e0701c8-…) but is not
+  # unlocked anywhere. Leaving it in swapDevices makes systemd wait ~90s for
+  # /dev/mapper/luks-5e0701c8-… then time out. zramSwap in common.nix covers swap.
+  #swapDevices =
+  #  [ { device = "/dev/mapper/luks-5e0701c8-00ca-4d08-8f2b-07232ea74946"; }
+  #  ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

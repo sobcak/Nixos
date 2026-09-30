@@ -8,7 +8,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     zen-browser.url = "github:youwen5/zen-browser-flake";
-    claude-desktop.url = "github:briossant/claude-desktop-nix";
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:

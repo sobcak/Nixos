@@ -47,6 +47,32 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Steam/X11 override-redirect menus close instantly on 0.8.2
+  # (https://github.com/Supreeeme/xwayland-satellite/issues/468). Fixed in 0.8.3;
+  # nixpkgs lock is still on 0.8.2 — drop this once the flake follows a newer nixpkgs.
+  nixpkgs.overlays = [
+    (final: prev:
+      let
+        version = "0.8.3";
+        src = prev.fetchFromGitHub {
+          owner = "Supreeeme";
+          repo = "xwayland-satellite";
+          tag = "v${version}";
+          hash = "sha256-eFEjCCniMCKeWU0PcZNv+tDYe08SLFPjRplyPY8OFt4=";
+        };
+        cargoHash = "sha256-gMGFvnbxM3hD5fmkSimaFd87GEf6BXFe/MGjoS6VNVU=";
+      in {
+        xwayland-satellite = prev.xwayland-satellite.overrideAttrs (old: {
+          inherit version src cargoHash;
+          # finalAttrs-based rust packages keep the old vendor drv unless this is reset
+          cargoDeps = prev.rustPlatform.fetchCargoVendor {
+            inherit src;
+            hash = cargoHash;
+          };
+        });
+      })
+  ];
+
   # List services that you want to enable:
   programs.niri.enable = true;
 
@@ -58,6 +84,18 @@
         user = "greeter";
       };
     };
+  };
+
+  # Stop post-LUKS systemd status lines from scribbling over tuigreet's TUI.
+  # https://github.com/apognu/tuigreet/issues/68#issuecomment-1230760343
+  systemd.services.greetd.serviceConfig = {
+    Type = "idle";
+    StandardInput = "tty";
+    StandardOutput = "tty";
+    StandardError = "journal";
+    TTYReset = true;
+    TTYVHangup = true;
+    TTYVTDisallocate = true;
   };
 
   services.flatpak.enable = true;

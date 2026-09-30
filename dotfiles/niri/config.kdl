@@ -32,7 +32,6 @@ output "eDP-1" {
 
 output "Philips Consumer Electronics Company 32M2C5501 AU02430002133" {
     mode "2560x1440@144.001"
-    scale 1.0
     position x=0 y=-1440
     focus-at-startup
 }
