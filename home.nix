@@ -37,8 +37,8 @@ in
 
     burpsuite
     caido-desktop
+    protonmail-desktop
 
-    brave
     nautilus
     iloader
     libimobiledevice
@@ -47,6 +47,7 @@ in
 
     # Dev Věci pro mami web
     rclone
+    gimp
 
     audacity
     legcord
@@ -81,7 +82,7 @@ in
 
     killall
     signal-desktop
-    protonmail-desktop
+    brave
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
   ] ++ (import ./niri-dependencies.nix { inherit pkgs; });
 
