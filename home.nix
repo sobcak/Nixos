@@ -28,6 +28,7 @@ in
     btop
     cmatrix
     cava
+    python3
 
     wineWow64Packages.wayland
     winetricks
