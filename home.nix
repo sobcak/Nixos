@@ -15,6 +15,7 @@ in
 
   # Puts Adwaita on XCURSOR_PATH; without this niri uses a huge software fallback.
   home.pointerCursor = {
+    enable = true;
     name = "Adwaita";
     package = pkgs.adwaita-icon-theme;
     size = cursorSize;
@@ -76,11 +77,11 @@ in
 
     vscodium
     code-cursor
-    inputs.claude-desktop.packages.${pkgs.system}.claude-desktop
 
     killall
     signal-desktop
-    inputs.zen-browser.packages.${pkgs.system}.default
+    protonmail-desktop
+    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
   ] ++ (import ./niri-dependencies.nix { inherit pkgs; });
 
   home.sessionVariables = {
