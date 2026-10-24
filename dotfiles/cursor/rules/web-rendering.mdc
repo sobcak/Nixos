@@ -1,0 +1,38 @@
+---
+description: CSS/layout architecture, rendering performance, Core Web Vitals — apply on frontend UI work
+globs: ["**/*.{css,scss,sass,less,html,vue,svelte}", "**/*.{tsx,jsx,astro}", "**/tailwind*.{js,ts,cjs,mjs}", "**/components/**/*.{ts,tsx,js,jsx}"]
+alwaysApply: false
+---
+
+# Web Rendering
+
+Scoped heuristics for layout, paint, and CWV. Complements Global Velocity — does not replace visual/brand rules.
+
+## Measure first
+- Budgets: LCP < 2.5s, INP < 200ms, CLS < 0.1, TTFB < 800ms; initial JS ≲ 170KB compressed.
+- Fix the dominant CWV contributor only; re-measure. Do not sprinkle micro-opts without a baseline.
+
+## CLS / layout stability
+- Images/video/embeds: explicit `width`/`height` or `aspect-ratio`; reserve space for ads/late widgets.
+- Never inject content above the fold after first paint; preload LCP image — never `loading="lazy"` the LCP candidate.
+- Fonts: self-host + preload critical faces; `font-display: optional|swap` with a matched fallback metric.
+
+## CSS containment & skip-render
+- Off-screen sections/lists: `content-visibility: auto` + `contain-intrinsic-size` (never on above-fold).
+- Isolated widgets with externally constrained size + large subtree: `contain: layout style paint`.
+- `contain: strict` only when size is explicit; never on content-sized parents that drive sibling layout, or nodes with overflowing absolute children.
+- `will-change` surgical only (`transform`/`opacity`), ≤ ~5 live targets; drop when idle. Prefer CSS animations (compositor) over JS-driven layout.
+
+## Prefer platform over JS
+- Scroll effects → CSS `animation-timeline: view()|scroll()` over IntersectionObserver + rAF where supported.
+- Page/element morphs → View Transitions API over transition libraries when adequate.
+- Modals/tooltips → Popover / Anchor Positioning before floating-UI stacks, if the design allows.
+
+## INP / main thread
+- Break long tasks (`scheduler.yield` / chunking); debounce high-frequency handlers.
+- Avoid sync storage/DOM thrash in event handlers; animate via `transform`/`opacity`, not layout props.
+- Prefer CSS for motion; keep interaction handlers thin.
+
+## Images & third parties
+- Modern formats (AVIF/WebP), `srcset`/`sizes`, lazy only below-fold; right-size assets.
+- Audit third-party scripts: defer, after-interaction, or drop — they often own the perf budget.

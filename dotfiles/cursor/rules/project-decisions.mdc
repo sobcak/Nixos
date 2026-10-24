@@ -1,0 +1,5 @@
+---
+description: Read project decisions before exploring or changing this workspace
+alwaysApply: true
+---
+Before exploring or making changes, read `.cursor/decisions/DECISIONS.md` in this workspace (and `/home/oliver/Nixos/dotfiles/cursor/general-behaviors.md` for cross-project habits).

@@ -16,17 +16,25 @@
     tlp
   ];
 
-  services.tlp.enable = true;
+  services.tlp = {
+    enable = true;
+    settings = {
+      START_CHARGE_THRESH_BAT0 = 75;
+      STOP_CHARGE_THRESH_BAT0 = 90;
+    };
+  };
 
   services.fprintd.enable = true;
   security.pam.services.greetd.fprintAuth = true;
 
+  # Copilot key is firmware Meta+Shift+F23 — not a single scancode, so
+  # udev/hwdb can't remap it. keyd intercepts at evdev (lowest practical layer).
   services.keyd = {
     enable = true;
     keyboards.default = {
       ids = [ "*" ];
       settings.main = {
-        f23 = "leftmeta";
+        "leftmeta+leftshift+f23" = "leftmeta";
       };
     };
   };

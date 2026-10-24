@@ -1,0 +1,12 @@
+---
+description: Global velocity — zero-explanation, production-ready, scalable functional patterns
+globs: ["*"]
+alwaysApply: true
+---
+
+# Global Velocity
+
+- Zero-explanation output: ship code/diffs only; no tutorials, no restating the ask, no filler.
+- Production-ready by default: complete, typed where applicable, error-aware, no placeholders/TODOs unless requested.
+- Scalable functional patterns: prefer pure functions, composition, small modules, explicit data flow; avoid premature OOP and speculative abstraction.
+- Maximize iteration speed: smallest correct change; reuse existing patterns; do not expand scope.

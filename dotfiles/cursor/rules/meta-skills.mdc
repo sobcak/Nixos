@@ -1,0 +1,25 @@
+---
+description: Meta-skill generator — Extract Skill and Project Skill triggers
+globs: ["*"]
+alwaysApply: true
+---
+
+# Meta-Skill Generator
+
+## Trigger 1 — `Extract Skill: [string]`
+
+When the user message matches `Extract Skill: <string>`:
+
+1. Parse `<string>` into a kebab-case `[name]` and skill body.
+2. Output a globally reusable skill into `~/Nixos/dotfiles/cursor/skills/[name]/` (prefer `SKILL.md` inside that directory, or `[name].mdc` if a single-file skill is clearer).
+3. File MUST include valid YAML frontmatter (`description`, appropriate `globs`, `alwaysApply` as needed) plus an actionable skill body — or follow Cursor skill `SKILL.md` conventions when using a directory.
+4. Do not create project-local copies for this trigger.
+
+## Trigger 2 — `Project Skill`
+
+When the user message matches `Project Skill` (optionally with a name/description):
+
+1. Analyze the active stack (NixOS, Cursor rules/skills layout, workspace tooling).
+2. Output a hyper-specific `[name].mdc` into the active project's `.cursor/rules/` (for `~/Nixos` workspace: `~/Nixos/.cursor/rules/`; for Cursor-dotfiles-centric work writing into `~/Nixos/dotfiles/cursor/rules/` is also valid when the change is global config).
+3. Use targeted `globs` matching only relevant files (prefer narrow globs over `["*"]`).
+4. Include valid YAML frontmatter and project-specific procedures only.

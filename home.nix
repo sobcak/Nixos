@@ -76,8 +76,9 @@ in
     nodejs
     dotnet-sdk_10
 
-    vscodium
     code-cursor
+    go
+    zip
 
     killall
     signal-desktop
@@ -100,6 +101,38 @@ in
   ];
 
   programs.home-manager.enable = true;
+
+  # Microsoft VS Code + C# Dev Kit (closest to Visual Studio for learning/debug).
+  # vscode-fhs fixes NixOS ICU/debugger breakage with the C# extensions.
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscode-fhs;
+    profiles.default = {
+      # Writable settings.json (HM defaults merge in; UI can still edit)
+      mutableUserSettings = true;
+      extensions = with pkgs.vscode-extensions; [
+        ms-dotnettools.csharp
+        ms-dotnettools.csdevkit
+        ms-dotnettools.vscode-dotnet-runtime
+      ];
+      userSettings = {
+        "workbench.colorTheme" = "Default High Contrast";
+        "dotnetAcquisitionExtension.sharedExistingDotnetPath" =
+          "${pkgs.dotnet-sdk_10}/bin/dotnet";
+        "dotnetAcquisitionExtension.allowInvalidPaths" = true;
+        "dotnetAcquisitionExtension.existingDotnetPath" = [
+          {
+            extensionId = "ms-dotnettools.csharp";
+            path = "${pkgs.dotnet-sdk_10}/bin/dotnet";
+          }
+          {
+            extensionId = "ms-dotnettools.csdevkit";
+            path = "${pkgs.dotnet-sdk_10}/bin/dotnet";
+          }
+        ];
+      };
+    };
+  };
 
   programs.fish = {
     enable = true;
@@ -213,7 +246,6 @@ in
       recursive = true;
     };
     "nvim".source = ./dotfiles/nvim;
-    "VSCodium/User/settings.json".source = ./dotfiles/vscodium/settings.json;
 
     # NixOS has no /usr/share; point at the qt6ct package color scheme
     "qt6ct/qt6ct.conf".text = ''

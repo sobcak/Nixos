@@ -1,0 +1,15 @@
+---
+description: Local NixOS/Cursor dotfiles architecture — config velocity under ~/Nixos
+globs: ["**/Nixos/**", "**/dotfiles/cursor/**", "**/*.nix", "**/*.mdc", "**/DECISIONS.md", "**/general-behaviors.md"]
+alwaysApply: false
+---
+
+# Local NixOS / Cursor Architecture
+
+- Anchor: NixOS system + Cursor agent config under `~/Nixos` and `~/Nixos/dotfiles/cursor`.
+- Separation: global Cursor artifacts in `~/Nixos/dotfiles/cursor/{agents,hooks,rules,skills}`; project memory in `<workspace>/.cursor/decisions/DECISIONS.md`.
+- Web modules: `rules/web-rendering.mdc`, `rules/web-security-boundaries.mdc`, `skills/browser-verify/` — scoped, not alwaysApply.
+- Symlinks: `~/.cursor/{rules,skills,agents,hooks}` point at the dotfiles tree — edits there are intentional and versioned with NixOS.
+- Shell on NixOS: always use `required_permissions: ["all"]` for Shell (sandbox cannot exec system bash).
+- Scope: prefer smallest correct change to rules/skills/decisions; document structural choices in DECISIONS.md; never invent a conflicting `.cursor/decisions.md`.
+- Workspace: open `~/Nixos` or a single project — not `$HOME`.
