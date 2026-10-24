@@ -166,7 +166,10 @@
     openFirewall = true; # opens the ports LocalSend needs
   };
 
-  programs.steam.enable = true;
+  programs.steam = {
+    enable = true;
+    extraCompatPackages = with pkgs; [ proton-ge-bin ];
+  };
   hardware.graphics.enable32Bit = true;
 
   services.nordvpn.enable = true;

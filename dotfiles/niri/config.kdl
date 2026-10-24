@@ -37,7 +37,6 @@ output "Philips Consumer Electronics Company 32M2C5501 AU02430002133" {
 }
 
 output "HP Inc. HP E24i G4 CNK3020FB7" {
-    transform "270"
     position x=2560 y=-1440
     layout {
         default-column-width { proportion 1.0; }
