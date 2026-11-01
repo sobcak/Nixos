@@ -80,6 +80,7 @@ in
     code-cursor
     go
     zip
+    openssl
 
     killall
     signal-desktop
@@ -156,10 +157,11 @@ in
       end
     '';
     functions.theme = {
-      description = "Switch kitty palette; fastfetch follows terminal colors";
+      description = "Switch palette for kitty + alacritty (and rofi); fastfetch follows";
       body = ''
         set -l dir $HOME/.config/kitty/themes
         set -l rofi_dir $HOME/.config/rofi/themes
+        set -l to_toml $HOME/.config/alacritty/kitty-theme-to-toml.sh
         if test (count $argv) -eq 0; or contains -- $argv[1] list ls -l --list
           echo "themes:"
           for f in $dir/*.conf
@@ -173,10 +175,33 @@ in
           echo "unknown theme: $name (try: theme list)"
           return 1
         end
+
+        # Persist for both terminals (kitty conf is source of truth)
+        mkdir -p $HOME/.config/kitty $HOME/.config/alacritty
         cp $src $HOME/.config/kitty/current-theme.conf
-        if set -q KITTY_WINDOW_ID
-          kitten @ set-colors --all --configured $src
+        if test -x $to_toml
+          $to_toml $src $HOME/.config/alacritty/current-theme.toml
         end
+
+        # Live: every reachable kitty (this session + listen_on unix:@kitty-theme)
+        if set -q KITTY_WINDOW_ID; or set -q KITTY_LISTEN_ON
+          kitten @ set-colors --all --configured $src 2>/dev/null
+        end
+        kitten @ --to unix:@kitty-theme set-colors --all --configured $src 2>/dev/null
+
+        # Live: every alacritty IPC socket (+ default when inside alacritty)
+        if test -x $to_toml
+          set -l opts ($to_toml --msg-args $src)
+          if set -q ALACRITTY_SOCKET; or set -q ALACRITTY_WINDOW_ID
+            alacritty msg -w -1 config $opts 2>/dev/null
+          end
+          if set -q XDG_RUNTIME_DIR
+            for sock in $XDG_RUNTIME_DIR/Alacritty*.sock
+              alacritty msg -s $sock -w -1 config $opts 2>/dev/null
+            end
+          end
+        end
+
         if test -f $rofi_dir/$name.rasi
           printf '@import "themes/%s"\n' $name > $HOME/.config/rofi/current-theme.rasi
         end
@@ -231,6 +256,11 @@ in
     "kitty/themes" = {
       source = ./dotfiles/kitty/themes;
       recursive = true;
+    };
+    "alacritty/alacritty.toml".source = ./dotfiles/alacritty/alacritty.toml;
+    "alacritty/kitty-theme-to-toml.sh" = {
+      source = ./dotfiles/alacritty/kitty-theme-to-toml.sh;
+      executable = true;
     };
     "hypr/hyprlock.conf".source = ./dotfiles/hypr/hyprlock.conf;
     "sunsetr/sunsetr.toml".source = ./dotfiles/sunsetr/sunsetr.toml;
@@ -287,6 +317,20 @@ in
     if [ ! -e "${config.home.homeDirectory}/.config/kitty/current-theme.conf" ]; then
       cp ${./dotfiles/kitty/themes/void.conf} "${config.home.homeDirectory}/.config/kitty/current-theme.conf"
       chmod u+w "${config.home.homeDirectory}/.config/kitty/current-theme.conf"
+    fi
+  '';
+
+  # Alacritty colors from the same kitty palette (seed from current kitty theme)
+  home.activation.alacrittyCurrentTheme = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p "${config.home.homeDirectory}/.config/alacritty"
+    if [ ! -e "${config.home.homeDirectory}/.config/alacritty/current-theme.toml" ]; then
+      src="${config.home.homeDirectory}/.config/kitty/current-theme.conf"
+      if [ ! -f "$src" ]; then
+        src=${./dotfiles/kitty/themes/void.conf}
+      fi
+      ${pkgs.bash}/bin/bash ${./dotfiles/alacritty/kitty-theme-to-toml.sh} "$src" \
+        "${config.home.homeDirectory}/.config/alacritty/current-theme.toml"
+      chmod u+w "${config.home.homeDirectory}/.config/alacritty/current-theme.toml"
     fi
   '';
 

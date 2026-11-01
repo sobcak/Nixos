@@ -15,10 +15,16 @@
     "battery",
     "backlight",
     "wireplumber",
+    "custom/printer",
     "clock",
     "clock#simpleclock",
     "tray"
   ],
+  "custom/printer": {
+    "format": "",
+    "tooltip-format": "Printers",
+    "on-click": "system-config-printer"
+  },
   "mpris": {
     "player": "spotify",
     "dynamic-order": ["artist", "title"],

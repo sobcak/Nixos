@@ -1,0 +1,28 @@
+# Matches kitty: void look, opacity, Iosevka 10, no chrome, 130×35.
+# Palette: current-theme.toml (writable; switch with `theme`)
+
+[general]
+import = ["~/.config/alacritty/current-theme.toml"]
+live_config_reload = true
+ipc_socket = true
+
+[window]
+opacity = 0.85
+decorations = "None"
+padding = { x = 0, y = 0 }
+dynamic_padding = false
+startup_mode = "Windowed"
+dimensions = { columns = 130, lines = 35 }
+
+[scrolling]
+history = 10000
+
+[font]
+size = 10.0
+normal = { family = "Iosevka", style = "Regular" }
+bold = { family = "Iosevka", style = "Bold" }
+italic = { family = "Iosevka", style = "Italic" }
+bold_italic = { family = "Iosevka", style = "Bold Italic" }
+
+[cursor]
+style = { shape = "Block", blinking = "Off" }

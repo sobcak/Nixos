@@ -90,6 +90,7 @@ window-rule {
 // Daemons (see ~/.config/niri/dependencies.nix) — start audio + bar via systemd
 spawn-at-startup "sh" "-c" "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP NIRI_SOCKET && systemctl --user start pipewire.socket pipewire-pulse.socket wireplumber waybar"
 spawn-at-startup "polkit-gnome-authentication-agent-1"
+spawn-at-startup "system-config-printer-applet"
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "sunsetr"
 spawn-at-startup "swaync"

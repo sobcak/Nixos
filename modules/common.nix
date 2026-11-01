@@ -40,7 +40,7 @@
   users.users."oliver" = {
     isNormalUser = true;
     description = "oliver";
-    extraGroups = [ "networkmanager" "wheel" "input" "nordvpn" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "input" "nordvpn" "docker" "lp" ];
     packages = with pkgs; [];
   };
 
@@ -171,7 +171,9 @@
     extraCompatPackages = with pkgs; [ proton-ge-bin ];
   };
   hardware.graphics.enable32Bit = true;
-
+  
+  systemd.services.NetworkManager-wait-online.enable = false;
+  
   services.nordvpn.enable = true;
   services.usbmuxd.enable = true;
 
@@ -185,4 +187,24 @@
 
   services.blueman.enable = true;
   services.upower.enable = true;
+
+  # Printing: CUPS GUI + drivers + mDNS (USB / IPP Everywhere / AirPrint)
+  services.printing = {
+    enable = true;
+    browsed.enable = true;
+    drivers = with pkgs; [
+      gutenprint
+      hplipWithPlugin
+      epson-escpr
+      epson-escpr2
+      foomatic-db-ppds
+      foomatic-db-nonfree
+    ];
+  };
+  programs.system-config-printer.enable = true;
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
 }

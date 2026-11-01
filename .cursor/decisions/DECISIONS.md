@@ -40,3 +40,14 @@
   - `dotfiles/cursor/rules/web-security-boundaries.mdc` — sinks/CSP/cookies/authz (scoped globs)
   - `dotfiles/cursor/skills/browser-verify/SKILL.md` — cursor-ide-browser verification workflow
 - **Constraint:** Additive only; did not widen Global Velocity / meta-skills / alwaysApply surface.
+
+## Terminals (2026-10-26)
+
+- Alacritty mirrors kitty look (`dotfiles/alacritty/alacritty.toml`: opacity 0.85, no decorations, Iosevka 10, 130×35).
+- Palette source of truth: `dotfiles/kitty/themes/*.conf`. `theme` fish fn writes kitty `current-theme.conf` + alacritty `current-theme.toml`, live-applies via `kitten @` (`listen_on unix:@kitty-theme`) and `alacritty msg` (all `Alacritty*.sock`).
+- Converter: `dotfiles/alacritty/kitty-theme-to-toml.sh` (toml + `--msg-args`).
+
+## Printing (2026-10-28)
+
+- CUPS + browsed + Avahi in `modules/common.nix`; user in `lp`.
+- Friendly stack: `programs.system-config-printer`, common drivers (gutenprint/hplip/epson/foomatic), tray applet at niri startup, Waybar `custom/printer` → GUI.
