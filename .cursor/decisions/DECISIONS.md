@@ -51,3 +51,24 @@
 
 - CUPS + browsed + Avahi in `modules/common.nix`; user in `lp`.
 - Friendly stack: `programs.system-config-printer`, common drivers (gutenprint/hplip/epson/foomatic), tray applet at niri startup, Waybar `custom/printer` → GUI.
+
+## Virtualisation (2026-11-02)
+
+- KVM (`kvm-amd`) already present; QEMU/libvirt were missing.
+- Enabled in `modules/common.nix`: `virtualisation.libvirtd` + `qemu_kvm` + swtpm, `spiceUSBRedirection`, `programs.virt-manager`.
+- User `oliver` in `libvirtd` + `kvm`. Home already sets `LIBVIRT_DEFAULT_URI=qemu:///system`.
+- OVMF submodule removed upstream — UEFI firmware ships with QEMU by default on this nixpkgs.
+
+## XRLinuxDriver (2026-11-04)
+
+- Package: flake input `xrlinuxdriver` → `git+https://github.com/shymega/XRLinuxDriver?ref=shymega/nix-flake-support&submodules=1` (upstream PR #80; plain `github:` drops nested submodules).
+- Enabled via `xrlinuxdriver.nixosModules.default` + `services.xrlinuxdriver.enable = true` in `modules/common.nix` (udev rules + user unit `xr-driver`).
+- Already had `uinput` + `input` group; keep those.
+- CLI: `xr_driver_cli` (`-e`/`-d`); logs: `~/.local/state/xr_driver/driver.log`.
+
+## VS Code / .NET (2026-11-05)
+
+- **Role:** Microsoft `vscode-fhs` is the zero-AI Cursor — same editor UX (vscode-neovim + LazyVim vscode extra via `~/.config/cursor-neovim/init.lua`, High Contrast, Cursor search/watcher excludes) plus C# Dev Kit; no Cursor AI/composer.
+- **Managed in:** `programs.vscode` in `home.nix` (csharp, csdevkit, vscode-dotnet-runtime, vscode-neovim; FHS for ICU/debugger). `mutableUserSettings = true`.
+- **Rejected:** Fluent OLED / vibrancy on Code; VSCodium as managed editor; porting Cursor AI into Code.
+- **VSCodium:** unmanaged leftover (`~/.config/VSCodium`, `dotfiles/vscodium/`); do not wire into Home Manager.

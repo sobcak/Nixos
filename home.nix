@@ -81,6 +81,9 @@ in
     go
     zip
     openssl
+    extundelete
+    gamescope
+    libreoffice
 
     killall
     signal-desktop
@@ -104,7 +107,7 @@ in
 
   programs.home-manager.enable = true;
 
-  # Microsoft VS Code + C# Dev Kit (closest to Visual Studio for learning/debug).
+  # Microsoft VS Code = Cursor minus AI (.NET via C# Dev Kit).
   # vscode-fhs fixes NixOS ICU/debugger breakage with the C# extensions.
   programs.vscode = {
     enable = true;
@@ -116,6 +119,7 @@ in
         ms-dotnettools.csharp
         ms-dotnettools.csdevkit
         ms-dotnettools.vscode-dotnet-runtime
+        asvetliakov.vscode-neovim
       ];
       userSettings = {
         "workbench.colorTheme" = "Default High Contrast";
@@ -132,6 +136,59 @@ in
             path = "${pkgs.dotnet-sdk_10}/bin/dotnet";
           }
         ];
+
+        # Same vscode-neovim entry as Cursor (LazyVim vscode extra)
+        "vscode-neovim.neovimExecutablePaths.linux" =
+          "${pkgs.neovim}/bin/nvim";
+        "vscode-neovim.neovimInitVimPaths.linux" =
+          "${config.home.homeDirectory}/.config/cursor-neovim/init.lua";
+        "extensions.experimental.affinity" = {
+          "asvetliakov.vscode-neovim" = 1;
+        };
+        "vscode-neovim.statusLineItems" = [ ];
+        # Omit "l" so Ctrl+L stays editor Select Line (no Cursor Chat here)
+        "vscode-neovim.ctrlKeysForNormalMode" = [
+          "a" "b" "c" "d" "e" "f" "h" "i" "j" "k" "m" "o" "r" "t" "u" "v"
+          "w" "x" "y" "z" "/" "]" "right" "left" "up" "down" "backspace" "delete"
+        ];
+
+        # Match Cursor: avoid indexing Steam/ISO/nix result via symlink follow
+        "search.followSymlinks" = false;
+        "files.watcherExclude" = {
+          "**/.git/objects/**" = true;
+          "**/.git/subtree-cache/**" = true;
+          "**/node_modules/**" = true;
+          "**/.cache/**" = true;
+          "**/.local/**" = true;
+          "**/.steam/**" = true;
+          "**/.var/**" = true;
+          "**/Documents/ISO/**" = true;
+          "**/result/**" = true;
+          "**/result-*/**" = true;
+          "**/.direnv/**" = true;
+          "**/dist/**" = true;
+          "**/build/**" = true;
+          "**/target/**" = true;
+        };
+        "search.exclude" = {
+          "**/.cache" = true;
+          "**/.local" = true;
+          "**/.steam" = true;
+          "**/.var" = true;
+          "**/Documents/ISO" = true;
+          "**/node_modules" = true;
+          "**/dist" = true;
+          "**/build" = true;
+          "**/target" = true;
+          "**/.git" = true;
+          "**/result" = true;
+          "**/result-*" = true;
+        };
+        "files.exclude" = {
+          "**/.cache" = true;
+          "**/.local/share/Steam" = true;
+          "**/.steam" = true;
+        };
       };
     };
   };

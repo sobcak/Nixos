@@ -40,7 +40,7 @@
   users.users."oliver" = {
     isNormalUser = true;
     description = "oliver";
-    extraGroups = [ "networkmanager" "wheel" "input" "nordvpn" "docker" "lp" ];
+    extraGroups = [ "networkmanager" "wheel" "input" "nordvpn" "docker" "lp" "libvirtd" "kvm" ];
     packages = with pkgs; [];
   };
 
@@ -102,6 +102,16 @@
 
   virtualisation.docker.enable = true;
 
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      swtpm.enable = true;
+    };
+  };
+  virtualisation.spiceUSBRedirection.enable = true;
+  programs.virt-manager.enable = true;
+
   # System / session packages only — user apps live in home.nix
   environment.systemPackages = with pkgs; [
     tuigreet
@@ -160,6 +170,9 @@
   services.udev.extraRules = ''
     KERNEL=="uinput", SUBSYSTEM=="misc", OPTIONS+="static_node=uinput", TAG+="uaccess", GROUP="input", MODE="0660"
   '';
+
+  # XR glasses user-space driver (udev + systemd --user xr-driver)
+  services.xrlinuxdriver.enable = true;
 
   programs.localsend = {
     enable = true;
