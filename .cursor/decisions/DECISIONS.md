@@ -66,6 +66,12 @@
 - Already had `uinput` + `input` group; keep those.
 - CLI: `xr_driver_cli` (`-e`/`-d`); logs: `~/.local/state/xr_driver/driver.log`.
 
+## Grok Bot (2026-11-17)
+
+- Flake input: `grok-bot` → `github:jordangarrison/grok-bot-flake` (follows nixpkgs); unfree already allowed in `modules/common.nix`.
+- Installed via `home.packages` in `home.nix` as `inputs.grok-bot.packages.${pkgs.stdenv.hostPlatform.system}.default` (same pattern as zen-browser).
+- After rebuild: first launch registers `sand://`; if login redirects fail, `xdg-mime default grok-bot.desktop x-scheme-handler/sand`.
+
 ## VS Code / .NET (2026-11-05)
 
 - **Role:** Microsoft `vscode-fhs` is the zero-AI Cursor — same editor UX (vscode-neovim + LazyVim vscode extra via `~/.config/cursor-neovim/init.lua`, High Contrast, Cursor search/watcher excludes) plus C# Dev Kit; no Cursor AI/composer.

@@ -7,6 +7,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.supportedFilesystems = [ "ntfs" ];
+  services.udisks2.enable = true;
+  services.gvfs.enable = true;
+
   # Enable networking
   networking.networkmanager.enable = true;
 

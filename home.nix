@@ -51,6 +51,7 @@ in
 
     audacity
     legcord
+    kdePackages.dolphin
     mapscii
     unzip
     ripgrep
@@ -89,6 +90,7 @@ in
     signal-desktop
     brave
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.grok-bot.packages.${pkgs.stdenv.hostPlatform.system}.default
   ] ++ (import ./niri-dependencies.nix { inherit pkgs; });
 
   home.sessionVariables = {
