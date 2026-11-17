@@ -72,3 +72,18 @@
 - **Managed in:** `programs.vscode` in `home.nix` (csharp, csdevkit, vscode-dotnet-runtime, vscode-neovim; FHS for ICU/debugger). `mutableUserSettings = true`.
 - **Rejected:** Fluent OLED / vibrancy on Code; VSCodium as managed editor; porting Cursor AI into Code.
 - **VSCodium:** unmanaged leftover (`~/.config/VSCodium`, `dotfiles/vscodium/`); do not wire into Home Manager.
+
+## Gaming
+- RDR2 / gamescope: nested gamescope 3.16.28 on niri aborts with `xdg_surface error 3` when Rockstar Launcher toggles window visibility (ValveSoftware/gamescope#2391). Do not wrap RDR2 in `gamescope ... -- %command%` until a fixed gamescope lands; Proton GE + `-fullscreen -vulkan` (protonfixes) is enough.
+
+## File manager / MIME (2026-11-06)
+
+- Package: `kdePackages.dolphin` in `home.packages` (nautilus kept).
+- Defaults via Home Manager `xdg.mimeApps.enable` — `inode/directory` → `org.kde.dolphin.desktop` (not bare `dolphin.desktop`).
+- Existing browser/scheme handlers migrated into `xdg.mimeApps.defaultApplications` so enabling mimeApps does not wipe `~/.config/mimeapps.list`.
+
+## Cisco Packet Tracer (2026-11-09)
+
+- Missing at `/usr/lib/packettracer`; install via nixpkgs `ciscoPacketTracer9` in `home.packages`.
+- Unfree + `requireFile`: download `CiscoPacketTracer_901_Ubuntu_64bit.deb` from NetAcad lab-downloads, then `nix-store --add-fixed sha256 CiscoPacketTracer_901_Ubuntu_64bit.deb`.
+- Fish alias `packettracer` → `packettracer9` (keep `LIBGL_ALWAYS_SOFTWARE=1`); MIME → `cisco-packet-tracer-9.desktop` / `cisco-packet-tracer-ptsa-9.desktop`.

@@ -33,6 +33,7 @@ in
     wineWow64Packages.wayland
     winetricks
     logisim-evolution
+    ciscoPacketTracer9
     prismlauncher
 
     burpsuite
@@ -84,6 +85,9 @@ in
     extundelete
     gamescope
     libreoffice
+    kdePackages.dolphin
+    heroic
+    wireshark
 
     killall
     signal-desktop
@@ -278,7 +282,7 @@ in
       refresh = "/home/os/.bin/refresh.sh";
       lsa = "ls -a";
       gitPrace = "git add . && git commit -m \"idfk\" && git pull && git push";
-      packettracer = "env LIBGL_ALWAYS_SOFTWARE=1 QT_QPA_PLATFORM=xcb /usr/lib/packettracer/packettracer.AppImage --no-sandbox";
+      packettracer = "env LIBGL_ALWAYS_SOFTWARE=1 packettracer9";
       logisim-evolution = "env GDK_BACKEND=x11 _JAVA_AWT_WM_NONREPARENTING=1 command logisim-evolution";
       davinci = "env QT_QPA_PLATFORM=xcb /opt/resolve/bin/resolve";
     };
@@ -301,6 +305,49 @@ in
   programs.gh = {
     enable = true;
     gitCredentialHelper.enable = true;
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      # Dolphin (fixes prior dolphin.desktop → org.kde.dolphin.desktop)
+      "inode/directory" = [ "org.kde.dolphin.desktop" ];
+
+      # Existing browser / scheme handlers (migrated from mimeapps.list)
+      "text/html" = [ "zen.desktop" ];
+      "application/xhtml+xml" = [ "zen.desktop" ];
+      "application/x-extension-htm" = [ "zen.desktop" ];
+      "application/x-extension-html" = [ "zen.desktop" ];
+      "application/x-extension-shtml" = [ "zen.desktop" ];
+      "application/x-extension-xhtml" = [ "zen.desktop" ];
+      "application/x-extension-xht" = [ "zen.desktop" ];
+      "x-scheme-handler/http" = [ "zen.desktop" ];
+      "x-scheme-handler/https" = [ "zen.desktop" ];
+      "x-scheme-handler/chrome" = [ "zen.desktop" ];
+      "x-scheme-handler/about" = [ "brave-browser.desktop" ];
+      "x-scheme-handler/unknown" = [ "brave-browser.desktop" ];
+      "x-scheme-handler/discord" = [ "legcord.desktop" ];
+      "x-scheme-handler/jetbrains" = [ "jetbrains-toolbox.desktop" ];
+      "x-scheme-handler/pttp" = [ "cisco-packet-tracer-ptsa-9.desktop" ];
+      "application/x-pka" = [ "cisco-packet-tracer-9.desktop" ];
+      "application/x-pkt" = [ "cisco-packet-tracer-9.desktop" ];
+      "application/x-pkz" = [ "cisco-packet-tracer-9.desktop" ];
+      "application/x-pksz" = [ "cisco-packet-tracer-9.desktop" ];
+      "x-scheme-handler/cider" = [ "cider.desktop" ];
+      "x-scheme-handler/itms" = [ "cider.desktop" ];
+      "x-scheme-handler/itmss" = [ "cider.desktop" ];
+      "x-scheme-handler/music" = [ "cider.desktop" ];
+      "x-scheme-handler/itunes" = [ "cider.desktop" ];
+      "x-scheme-handler/claude" = [ "com.anthropic.Claude.desktop" ];
+      "x-scheme-handler/proton-inbox" = [ "proton-mail.desktop" ];
+    };
+    associations.added = {
+      "text/html" = [ "zen.desktop" "app.zen_browser.zen.desktop" ];
+      "application/xhtml+xml" = [ "zen.desktop" "app.zen_browser.zen.desktop" ];
+      "x-scheme-handler/http" = [ "zen.desktop" "app.zen_browser.zen.desktop" ];
+      "x-scheme-handler/https" = [ "zen.desktop" "app.zen_browser.zen.desktop" ];
+      "x-scheme-handler/chrome" = [ "zen.desktop" ];
+    };
   };
 
   # Managed configs (edit under ./dotfiles/)
