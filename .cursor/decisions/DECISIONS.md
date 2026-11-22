@@ -93,3 +93,17 @@
 - Missing at `/usr/lib/packettracer`; install via nixpkgs `ciscoPacketTracer9` in `home.packages`.
 - Unfree + `requireFile`: download `CiscoPacketTracer_901_Ubuntu_64bit.deb` from NetAcad lab-downloads, then `nix-store --add-fixed sha256 CiscoPacketTracer_901_Ubuntu_64bit.deb`.
 - Fish alias `packettracer` → `packettracer9` (keep `LIBGL_ALWAYS_SOFTWARE=1`); MIME → `cisco-packet-tracer-9.desktop` / `cisco-packet-tracer-ptsa-9.desktop`.
+
+## Jujutsu / jj (2026-11-18)
+
+- **Daily CLI:** `jj` via Home Manager `programs.jujutsu` in `home.nix`.
+- **Git kept:** `programs.git` + `programs.gh` with `gitCredentialHelper` — jj talks to GitHub over the Git backend; HTTPS auth stays `gh auth` → git credential helper. Do not remove git.
+- **Repos:** colocated (`.jj` + `.git`); clone with `jj git clone`, convert existing with `jj git init` then `jj bookmark track 'glob:*' --remote=origin`.
+- **Push/PR:** `jj git push` / `jj git push -c @-`; `gh` unchanged. Alias `gitPrace` uses jj commit/fetch/rebase/push.
+
+## Cursor Origin CLI (2026-11-18)
+
+- Official `origin` linux-x64 ELF is unpatched (`PT_INTERP=/lib64/ld-linux-x86-64.so.2`); NixOS stub-ld refuses it.
+- System fix: `programs.nix-ld.enable = true` in `modules/common.nix` (re-login after rebuild so `NIX_LD*` is set).
+- Immediate workaround: replace `~/.local/bin/origin` *symlink* with a regular-file wrapper (never `cat >` a symlink — that overwrites the ELF). Wrapper prefers nix-ld when set, else `steam-run` on `~/.local/share/cursor/origin/*/origin`. `origin update` / reinstall restores a symlink — re-wrap or rely on nix-ld after rebuild+relogin.
+- Auth/clone: `origin auth login` then `origin repo clone '<ns>/<repo>'` (from a normal terminal, not a nested bwrap).
