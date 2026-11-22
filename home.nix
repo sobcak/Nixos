@@ -452,7 +452,9 @@ in
       if [ ! -f "$src" ]; then
         src=${./dotfiles/kitty/themes/void.conf}
       fi
-      ${pkgs.bash}/bin/bash ${./dotfiles/alacritty/kitty-theme-to-toml.sh} "$src" \
+      # System HM activation has a minimal PATH (no awk); pin gawk explicitly.
+      PATH="${pkgs.gawk}/bin:${pkgs.coreutils}/bin:$PATH" \
+        ${pkgs.bash}/bin/bash ${./dotfiles/alacritty/kitty-theme-to-toml.sh} "$src" \
         "${config.home.homeDirectory}/.config/alacritty/current-theme.toml"
       chmod u+w "${config.home.homeDirectory}/.config/alacritty/current-theme.toml"
     fi

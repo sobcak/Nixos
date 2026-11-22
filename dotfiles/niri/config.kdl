@@ -55,7 +55,7 @@ layout {
     center-focused-column "never"
     default-column-width { proportion 0.5; }
 
-    // Native absolute void background. swaybg is terminated.
+    // Void underlay; we-layerd (when running) is a normal Background layer on each output.
     background-color "#000000"
 
     focus-ring {

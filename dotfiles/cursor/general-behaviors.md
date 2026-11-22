@@ -15,6 +15,10 @@
 ## Decisions path (orchestration)
 - Always use `<project>/.cursor/decisions/DECISIONS.md`. Never create a sibling `.cursor/decisions.md` (rejected 2026-10-23 to avoid forking memory).
 
+## Git commits
+- User is sole author. Never add Cursor as author or `Co-authored-by: Cursor <cursoragent@cursor.com>`.
+- If Cursor auto-injects that trailer, rewrite with `git commit-tree` + `git push --force-with-lease` (user approval required).
+
 ## Web frontend modules
 - Rendering/CWV: `dotfiles/cursor/rules/web-rendering.mdc` (auto on frontend globs).
 - Security boundaries: `dotfiles/cursor/rules/web-security-boundaries.mdc`.

@@ -14,9 +14,11 @@
     };
     # Upstream PR #80 flake; github: URL drops nested submodules — use git+submodules=1.
     xrlinuxdriver.url = "git+https://github.com/shymega/XRLinuxDriver?ref=shymega/nix-flake-support&submodules=1";
+    # Native Wallpaper Engine runtime for Wayland (layer-shell / niri).
+    we-layerd.url = "github:Aromatic05/we-layerd";
   };
 
-  outputs = { self, nixpkgs, home-manager, xrlinuxdriver, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, xrlinuxdriver, we-layerd, ... }@inputs:
     let
       mkHost = host: nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -25,6 +27,7 @@
           ./modules/common.nix
           ./hosts/${host}
           xrlinuxdriver.nixosModules.default
+          we-layerd.nixosModules.default
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

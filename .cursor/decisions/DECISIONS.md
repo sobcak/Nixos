@@ -82,6 +82,16 @@
 ## Gaming
 - RDR2 / gamescope: nested gamescope 3.16.28 on niri aborts with `xdg_surface error 3` when Rockstar Launcher toggles window visibility (ValveSoftware/gamescope#2391). Do not wrap RDR2 in `gamescope ... -- %command%` until a fixed gamescope lands; Proton GE + `-fullscreen -vulkan` (protonfixes) is enough.
 
+## we-layerd / Wallpaper Engine (2026-11-22)
+
+- Flake input `we-layerd` → `github:Aromatic05/we-layerd`; module `we-layerd.nixosModules.default`; `services.we-layerd.enable = true` in `modules/common.nix`.
+- Desktop NVIDIA: `services.we-layerd.package` overridden with `cudaSupport = true` + `pkgs.cudaPackages` in `hosts/olinux-desktop/default.nix`.
+- Mutable config (GUI-owned): `~/.config/we-layerd/config.toml` — do not HM-symlink; Steam assets at `~/.local/share/Steam/steamapps/common/wallpaper_engine/assets`, workshop `.../workshop/content/431960/<id>`.
+- Niri: no `place-within-backdrop` — we-layerd is a normal Background layer on each output (real desktop wallpaper, not overview-only). Void `#000000` underlay. `input_mode = "direct"`.
+- Multi-output: daemon workers keyed by stable `wl_output.name`; we-gui `[outputs."…"]` bindings; hotplug-safe.
+- HDMI pause pitfall: HP output uses `default-column-width { proportion 1.0; }`, so a single tiled window fills the output and foreign-toplevel reports fullscreen → `rules.fullscreen = "pause"` freezes that wallpaper. Keep `fullscreen = "keep"` unless you want that.
+- HM activation: `alacrittyCurrentTheme` must put `pkgs.gawk` on PATH (system unit PATH has no awk). Packet Tracer `requireFile` deb lives in `~/Downloads/`; re-`nix-store --add-fixed sha256` if GC drops it.
+
 ## File manager / MIME (2026-11-06)
 
 - Package: `kdePackages.dolphin` in `home.packages` (nautilus kept).
