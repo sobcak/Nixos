@@ -178,6 +178,9 @@
   # XR glasses user-space driver (udev + systemd --user xr-driver)
   services.xrlinuxdriver.enable = true;
 
+  # Native Wallpaper Engine on Wayland (user unit; needs ~/.config/we-layerd/config.toml)
+  services.we-layerd.enable = true;
+
   programs.localsend = {
     enable = true;
     openFirewall = true; # opens the ports LocalSend needs

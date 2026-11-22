@@ -1,6 +1,6 @@
 # Host-specific quirks for "olinux-desktop" (NVIDIA desktop, LTS kernel).
 # Shared config lives in ../../modules/common.nix.
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports = [
@@ -22,6 +22,13 @@
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
+
+  # Keep scene video textures on-GPU (requires unfree CUDA headers; already allowed).
+  services.we-layerd.package =
+    inputs.we-layerd.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+      cudaSupport = true;
+      cudaPackages = pkgs.cudaPackages;
+    };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
