@@ -98,11 +98,11 @@
 - Defaults via Home Manager `xdg.mimeApps.enable` — `inode/directory` → `org.kde.dolphin.desktop` (not bare `dolphin.desktop`).
 - Existing browser/scheme handlers migrated into `xdg.mimeApps.defaultApplications` so enabling mimeApps does not wipe `~/.config/mimeapps.list`.
 
-## Cisco Packet Tracer (2026-11-09)
+## Cisco Packet Tracer (2026-11-09, manual-only 2026-11-23)
 
-- Missing at `/usr/lib/packettracer`; install via nixpkgs `ciscoPacketTracer9` in `home.packages`.
-- Unfree + `requireFile`: download `CiscoPacketTracer_901_Ubuntu_64bit.deb` from NetAcad lab-downloads, then `nix-store --add-fixed sha256 CiscoPacketTracer_901_Ubuntu_64bit.deb`.
-- Fish alias `packettracer` → `packettracer9` (keep `LIBGL_ALWAYS_SOFTWARE=1`); MIME → `cisco-packet-tracer-9.desktop` / `cisco-packet-tracer-ptsa-9.desktop`.
+- **Not** in `home.packages`, MIME defaults, or flake — do not wire back into HM/nix-switch; Oliver maintains it manually only.
+- Vendor deb: `~/Nixos/vendor/cisco-packet-tracer/CiscoPacketTracer_901_Ubuntu_64bit.deb` (gitignored `.deb`; README in that folder).
+- Ad-hoc: `nix-store --add-fixed sha256` on that deb, then `nix shell nixpkgs#ciscoPacketTracer9` with `LIBGL_ALWAYS_SOFTWARE=1 packettracer9` as needed.
 
 ## Jujutsu / jj (2026-11-18)
 
@@ -121,5 +121,19 @@
 ## we-layerd scene MDLV0023 (2026-11-23)
 
 - Symptom: scene wallpapers presented frames but looked black/blobby; workshop models use MDLV0023.
-- Fix (local renderer at `/home/oliver/src/wallpaper-engine-renderer` branch `fix/mdl-v23-static-model-objects`): ParseStaticModel routes unknown versions through generic mesh→StaticChunk; `#require LightingV1` expands to PerformLighting_V1 stub; getManualScale coerced after script body.
-- Nix: `flake.nix` overrides `we-layerd.inputs.renderer` to `path:/home/oliver/src/wallpaper-engine-renderer`. Package builds as `nix build .#nixosConfigurations.olinux.config.services.we-layerd.package`; run from `result/` until `sudo nixos-rebuild switch`.
+- Fix (renderer fork `github:sobcak/wallpaper-engine-renderer` branch `fix/mdl-v23-static-model-objects`, pinned rev `504de989…`): ParseStaticModel routes unknown versions through generic mesh→StaticChunk; `#require LightingV1` expands to PerformLighting_V1 stub; getManualScale coerced after script body.
+- Nix: `flake.nix` overrides `we-layerd.inputs.renderer` to that GitHub rev (`flake = false`) — no local `path:/home/oliver/src/…` (broken on clone / GitHub sync). Local clone at `~/src/wallpaper-engine-renderer` is optional for hacking; push to `sobcak` remote then bump the flake pin.
+- Package: `nix build .#nixosConfigurations.olinux.config.services.we-layerd.package`; apply with `sudo nixos-rebuild switch`.
+
+## Void system UI (2026-11-23)
+
+- System GTK/Qt/KDE chrome follows kitty **void** palette (`#000000` / `#c5c8c6` / `#ff0000`), not stock Adwaita slate or qt6ct `darker` blue accents.
+- HM `gtk` + `dconf` lock `Adwaita-dark` + `prefer-dark` (fixes live `YOUR_DARK_GTK3_THEME` placeholder); theme package `gnome-themes-extra`.
+- Repaint: `dotfiles/gtk-{3,4}.0/gtk.css` named-color overrides; `dotfiles/qtct/void.conf` for qt5ct+qt6ct; `dotfiles/kde/kdeglobals` for Dolphin.
+- Adwaita-dark is structural base only — void CSS/color schemes own the look.
+
+## Full system update (`nix switch`) (2026-11-23)
+
+- **Workflow:** `nix switch` (fish wraps `nix`) → `nix-switch` in `modules/common.nix`: `nix flake update`, `sudo nixos-rebuild switch --flake $NIXOS_FLAKE#$host`, then `flatpak update -y`.
+- **Flake root:** `$NIXOS_FLAKE` or `$HOME/Nixos`. Rebuild only (no lock bump): `nix switch --no-update`.
+- **Dropped:** `xwayland-satellite` 0.8.3 overlay — nixpkgs lock now ships 0.8.3 natively.

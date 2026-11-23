@@ -33,7 +33,6 @@ in
     wineWow64Packages.wayland
     winetricks
     logisim-evolution
-    ciscoPacketTracer9
     prismlauncher
 
     burpsuite
@@ -85,7 +84,6 @@ in
     extundelete
     gamescope
     libreoffice
-    kdePackages.dolphin
     heroic
     wireshark
     zoxide
@@ -117,6 +115,41 @@ in
   ];
 
   programs.home-manager.enable = true;
+
+  # Void system UI: Adwaita-dark base + CSS/qtct/kdeglobals repaint (kitty void palette).
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
+    };
+    iconTheme = {
+      name = "Adwaita";
+      package = pkgs.adwaita-icon-theme;
+    };
+    cursorTheme = {
+      name = "Adwaita";
+      package = pkgs.adwaita-icon-theme;
+      size = cursorSize;
+    };
+    gtk3 = {
+      extraConfig = {
+        gtk-application-prefer-dark-theme = 1;
+      };
+      extraCss = builtins.readFile ./dotfiles/gtk-3.0/gtk.css;
+    };
+    gtk4 = {
+      extraConfig = {
+        gtk-application-prefer-dark-theme = 1;
+      };
+      extraCss = builtins.readFile ./dotfiles/gtk-4.0/gtk.css;
+    };
+  };
+
+  dconf.settings."org/gnome/desktop/interface" = {
+    color-scheme = "prefer-dark";
+    gtk-theme = "Adwaita-dark";
+  };
 
   # Microsoft VS Code = Cursor minus AI (.NET via C# Dev Kit).
   # vscode-fhs fixes NixOS ICU/debugger breakage with the C# extensions.
@@ -223,6 +256,16 @@ in
               set -gx XDG_SESSION_ID "$sid"
           end
       end
+
+      # `nix switch` == pacman -Syu: flake update + nixos-rebuild (see nix-switch in common.nix)
+      function nix
+          if test (count $argv) -ge 1; and test $argv[1] = switch
+              set -e argv[1]
+              nix-switch $argv
+              return $status
+          end
+          command nix $argv
+      end
     '';
     functions.theme = {
       description = "Switch palette for kitty + alacritty (and rofi); fastfetch follows";
@@ -290,7 +333,6 @@ in
       lsa = "ls -a";
       # jj: commit WC → fetch → rebase onto trunk → push (GitHub via git+gh)
       gitPrace = "jj commit -m idfk; and jj git fetch; and jj rebase -d 'trunk()'; and jj git push";
-      packettracer = "env LIBGL_ALWAYS_SOFTWARE=1 packettracer9";
       logisim-evolution = "env GDK_BACKEND=x11 _JAVA_AWT_WM_NONREPARENTING=1 command logisim-evolution";
       davinci = "env QT_QPA_PLATFORM=xcb /opt/resolve/bin/resolve";
     };
@@ -354,11 +396,6 @@ in
       "x-scheme-handler/unknown" = [ "brave-browser.desktop" ];
       "x-scheme-handler/discord" = [ "legcord.desktop" ];
       "x-scheme-handler/jetbrains" = [ "jetbrains-toolbox.desktop" ];
-      "x-scheme-handler/pttp" = [ "cisco-packet-tracer-ptsa-9.desktop" ];
-      "application/x-pka" = [ "cisco-packet-tracer-9.desktop" ];
-      "application/x-pkt" = [ "cisco-packet-tracer-9.desktop" ];
-      "application/x-pkz" = [ "cisco-packet-tracer-9.desktop" ];
-      "application/x-pksz" = [ "cisco-packet-tracer-9.desktop" ];
       "x-scheme-handler/cider" = [ "cider.desktop" ];
       "x-scheme-handler/itms" = [ "cider.desktop" ];
       "x-scheme-handler/itmss" = [ "cider.desktop" ];
@@ -396,8 +433,6 @@ in
     "sunsetr/sunsetr.toml".source = ./dotfiles/sunsetr/sunsetr.toml;
     "fastfetch/config.jsonc".source = ./dotfiles/fastfetch/config.jsonc;
     "swaync/style.css".source = ./dotfiles/swaync/style.css;
-    "gtk-3.0/settings.ini".text = withCursorSize ./dotfiles/gtk-3.0/settings.ini;
-    "gtk-4.0/settings.ini".text = withCursorSize ./dotfiles/gtk-4.0/settings.ini;
     "btop/btop.conf".source = ./dotfiles/btop/btop.conf;
     "btop/themes/void.theme".source = ./dotfiles/btop/themes/void.theme;
     "cava/config".source = ./dotfiles/cava/config;
@@ -408,10 +443,12 @@ in
     };
     "nvim".source = ./dotfiles/nvim;
 
-    # NixOS has no /usr/share; point at the qt6ct package color scheme
-    "qt6ct/qt6ct.conf".text = ''
+    # Void qtct palette (shared by qt5ct + qt6ct)
+    "qt5ct/colors/void.conf".source = ./dotfiles/qtct/void.conf;
+    "qt6ct/colors/void.conf".source = ./dotfiles/qtct/void.conf;
+    "qt5ct/qt5ct.conf".text = ''
       [Appearance]
-      color_scheme_path=${pkgs.qt6Packages.qt6ct}/share/qt6ct/colors/darker.conf
+      color_scheme_path=${config.home.homeDirectory}/.config/qt5ct/colors/void.conf
       custom_palette=true
       standard_dialogs=default
       style=Fusion
@@ -439,6 +476,39 @@ in
       force_raster_widgets=1
       ignored_applications=@Invalid()
     '';
+    "qt6ct/qt6ct.conf".text = ''
+      [Appearance]
+      color_scheme_path=${config.home.homeDirectory}/.config/qt6ct/colors/void.conf
+      custom_palette=true
+      standard_dialogs=default
+      style=Fusion
+
+      [Fonts]
+      fixed="Noto Sans,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+      general="Noto Sans,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+
+      [Interface]
+      activate_item_on_single_click=1
+      buttonbox_layout=0
+      cursor_flash_time=1000
+      dialog_buttons_have_icons=1
+      double_click_interval=400
+      gui_effects=@Invalid()
+      keyboard_scheme=2
+      menus_have_icons=true
+      show_shortcuts_in_context_menus=true
+      stylesheets=@Invalid()
+      toolbutton_style=4
+      underline_shortcut=1
+      wheel_scroll_lines=3
+
+      [Troubleshooting]
+      force_raster_widgets=1
+      ignored_applications=@Invalid()
+    '';
+
+    # Dolphin / KDE apps outside Plasma — void RGB, not BreezeDark
+    "kdeglobals".source = ./dotfiles/kde/kdeglobals;
   };
 
   # Writable palette file (not HM-managed) so `theme` can switch without rebuild

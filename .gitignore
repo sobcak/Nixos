@@ -1,1 +1,4 @@
 result
+
+# Vendor blobs (manual installs — not part of flake builds)
+vendor/**/*.deb

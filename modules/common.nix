@@ -51,32 +51,6 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Steam/X11 override-redirect menus close instantly on 0.8.2
-  # (https://github.com/Supreeeme/xwayland-satellite/issues/468). Fixed in 0.8.3;
-  # nixpkgs lock is still on 0.8.2 — drop this once the flake follows a newer nixpkgs.
-  nixpkgs.overlays = [
-    (final: prev:
-      let
-        version = "0.8.3";
-        src = prev.fetchFromGitHub {
-          owner = "Supreeeme";
-          repo = "xwayland-satellite";
-          tag = "v${version}";
-          hash = "sha256-eFEjCCniMCKeWU0PcZNv+tDYe08SLFPjRplyPY8OFt4=";
-        };
-        cargoHash = "sha256-gMGFvnbxM3hD5fmkSimaFd87GEf6BXFe/MGjoS6VNVU=";
-      in {
-        xwayland-satellite = prev.xwayland-satellite.overrideAttrs (old: {
-          inherit version src cargoHash;
-          # finalAttrs-based rust packages keep the old vendor drv unless this is reset
-          cargoDeps = prev.rustPlatform.fetchCargoVendor {
-            inherit src;
-            hash = cargoHash;
-          };
-        });
-      })
-  ];
-
   # List services that you want to enable:
   programs.niri.enable = true;
 
@@ -121,13 +95,50 @@
     tuigreet
     util-linux
     flatpak
-    fuse2 # for AppImages
+    fuse # for AppImages (nixpkgs dropped fuse2 EOL)
     appimage-run
     bluez
     # Polkit agent for niri session (spawned from niri config)
     polkit_gnome
     (writeShellScriptBin "polkit-gnome-authentication-agent-1" ''
       exec ${polkit_gnome}/libexec/polkit-gnome-authentication-agent-1 "$@"
+    '')
+    # pacman -Syu analogue: refresh flake.lock then rebuild this host (+ flatpak).
+    (writeShellScriptBin "nix-switch" ''
+      set -euo pipefail
+      flakeRoot="''${NIXOS_FLAKE:-$HOME/Nixos}"
+      host="$(hostname)"
+      update=true
+      rebuildArgs=()
+
+      for arg in "$@"; do
+        case "$arg" in
+          --no-update) update=false ;;
+          *) rebuildArgs+=("$arg") ;;
+        esac
+      done
+
+      if ! test -f "$flakeRoot/flake.nix"; then
+        echo "error: no flake.nix in $flakeRoot (set NIXOS_FLAKE)" >&2
+        exit 1
+      fi
+
+      cd "$flakeRoot"
+
+      if $update; then
+        echo "Updating flake inputs..."
+        ${pkgs.nix}/bin/nix flake update
+      fi
+
+      echo "Switching $host..."
+      sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch \
+        --flake "$flakeRoot#$host" \
+        "''${rebuildArgs[@]}"
+
+      if command -v flatpak >/dev/null; then
+        echo "Updating Flatpaks..."
+        flatpak update -y || true
+      fi
     '')
   ];
 
