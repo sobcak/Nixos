@@ -123,18 +123,14 @@
     "renderer": {
       "flake": false,
       "locked": {
-        "lastModified": 1793086987,
-        "narHash": "sha256-4x2Z06PP5Qm0ZuPHiWGxyfn2p8lRoHc05wsMBx7gft4=",
-        "owner": "Aromatic05",
-        "repo": "wallpaper-engine-renderer",
-        "rev": "b2e01e421adc8fade6d1b4d124d5f7fec3463094",
-        "type": "github"
+        "lastModified": 1795424774,
+        "narHash": "sha256-dhZO6he+6WcTVYv+i4DtJmbQe4WSJ5bk5A7GegEPbqY=",
+        "path": "/home/oliver/src/wallpaper-engine-renderer",
+        "type": "path"
       },
       "original": {
-        "owner": "Aromatic05",
-        "repo": "wallpaper-engine-renderer",
-        "rev": "b2e01e421adc8fade6d1b4d124d5f7fec3463094",
-        "type": "github"
+        "path": "/home/oliver/src/wallpaper-engine-renderer",
+        "type": "path"
       }
     },
     "rendererEigen": {

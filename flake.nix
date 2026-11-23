@@ -15,7 +15,15 @@
     # Upstream PR #80 flake; github: URL drops nested submodules — use git+submodules=1.
     xrlinuxdriver.url = "git+https://github.com/shymega/XRLinuxDriver?ref=shymega/nix-flake-support&submodules=1";
     # Native Wallpaper Engine runtime for Wayland (layer-shell / niri).
-    we-layerd.url = "github:Aromatic05/we-layerd";
+    # Renderer override: MDLV0023 model-object parse + getManualScale coerce
+    # (local branch fix/mdl-v23-static-model-objects).
+    we-layerd = {
+      url = "github:Aromatic05/we-layerd";
+      inputs.renderer = {
+        url = "path:/home/oliver/src/wallpaper-engine-renderer";
+        flake = false;
+      };
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, xrlinuxdriver, we-layerd, ... }@inputs:

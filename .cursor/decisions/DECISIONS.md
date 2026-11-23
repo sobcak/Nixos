@@ -117,3 +117,9 @@
 - System fix: `programs.nix-ld.enable = true` in `modules/common.nix` (re-login after rebuild so `NIX_LD*` is set).
 - Immediate workaround: replace `~/.local/bin/origin` *symlink* with a regular-file wrapper (never `cat >` a symlink — that overwrites the ELF). Wrapper prefers nix-ld when set, else `steam-run` on `~/.local/share/cursor/origin/*/origin`. `origin update` / reinstall restores a symlink — re-wrap or rely on nix-ld after rebuild+relogin.
 - Auth/clone: `origin auth login` then `origin repo clone '<ns>/<repo>'` (from a normal terminal, not a nested bwrap).
+
+## we-layerd scene MDLV0023 (2026-11-23)
+
+- Symptom: scene wallpapers presented frames but looked black/blobby; workshop models use MDLV0023.
+- Fix (local renderer at `/home/oliver/src/wallpaper-engine-renderer` branch `fix/mdl-v23-static-model-objects`): ParseStaticModel routes unknown versions through generic mesh→StaticChunk; `#require LightingV1` expands to PerformLighting_V1 stub; getManualScale coerced after script body.
+- Nix: `flake.nix` overrides `we-layerd.inputs.renderer` to `path:/home/oliver/src/wallpaper-engine-renderer`. Package builds as `nix build .#nixosConfigurations.olinux.config.services.we-layerd.package`; run from `result/` until `sudo nixos-rebuild switch`.
