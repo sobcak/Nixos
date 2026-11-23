@@ -88,6 +88,12 @@ in
     kdePackages.dolphin
     heroic
     wireshark
+    zoxide
+    fzf
+    tldr
+    atuin
+    lazygit
+    jq
 
     killall
     signal-desktop
