@@ -191,6 +191,11 @@
     extraCompatPackages = with pkgs; [ proton-ge-bin ];
   };
   hardware.graphics.enable32Bit = true;
+
+  # Generic linux-x64 ELFs (Cursor origin CLI, etc.) need a real dynamic linker.
+  # Without this, /lib64/ld-linux-x86-64.so.2 is stub-ld and binaries fail with
+  # "NixOS cannot run dynamically linked executables". Re-login after enabling.
+  programs.nix-ld.enable = true;
   
   systemd.services.NetworkManager-wait-online.enable = false;
   

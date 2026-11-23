@@ -282,7 +282,8 @@ in
       pdf = "zathura";
       refresh = "/home/os/.bin/refresh.sh";
       lsa = "ls -a";
-      gitPrace = "git add . && git commit -m \"idfk\" && git pull && git push";
+      # jj: commit WC → fetch → rebase onto trunk → push (GitHub via git+gh)
+      gitPrace = "jj commit -m idfk; and jj git fetch; and jj rebase -d 'trunk()'; and jj git push";
       packettracer = "env LIBGL_ALWAYS_SOFTWARE=1 packettracer9";
       logisim-evolution = "env GDK_BACKEND=x11 _JAVA_AWT_WM_NONREPARENTING=1 command logisim-evolution";
       davinci = "env QT_QPA_PLATFORM=xcb /opt/resolve/bin/resolve";
@@ -294,6 +295,7 @@ in
     enableFishIntegration = true;
   };
 
+  # Kept as jj's Git backend + gh HTTPS credential helper (do not remove).
   programs.git = {
     enable = true;
     settings = {
@@ -306,6 +308,23 @@ in
   programs.gh = {
     enable = true;
     gitCredentialHelper.enable = true;
+  };
+
+  # Daily VCS CLI — colocated Git repos, same GitHub remotes/auth as before.
+  programs.jujutsu = {
+    enable = true;
+    settings = {
+      user = {
+        name = "sobcak";
+        email = "oliver.sobcak@proton.me";
+      };
+      ui.default-command = "log";
+      git = {
+        # Uses PATH `git` → inherits gh credential helper for github.com HTTPS.
+        push-bookmark-prefix = "sobcak/";
+      };
+      remotes.origin.auto-track-bookmarks = "glob:*";
+    };
   };
 
   xdg.mimeApps = {
