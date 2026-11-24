@@ -19,6 +19,9 @@
     # (fork sobcak/wallpaper-engine-renderer @ fix/mdl-v23-static-model-objects).
     we-layerd = {
       url = "github:Aromatic05/we-layerd";
+      # Must follow system nixpkgs: otherwise vulkan-loader links old glibc and
+      # cannot dlopen /run/opengl-driver Mesa (GLIBC_2.44 / VK_ERROR_INCOMPATIBLE_DRIVER).
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.renderer = {
         url = "github:sobcak/wallpaper-engine-renderer/504de989f90ae6f630e82a1f4b233db67b0c05a4";
         flake = false;

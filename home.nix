@@ -38,6 +38,10 @@ in
     burpsuite
     caido-desktop
     protonmail-desktop
+    # Official qBittorrent: open-source, no ads/telemetry; use Anonymous Mode +
+    # SOCKS5 peer+tracker proxy (or a VPN) for privacy. Avoid Transmission for
+    # proxy setups — peers/DHT always go direct.
+    qbittorrent
 
     nautilus
     iloader

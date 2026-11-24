@@ -125,6 +125,13 @@
 - Nix: `flake.nix` overrides `we-layerd.inputs.renderer` to that GitHub rev (`flake = false`) — no local `path:/home/oliver/src/…` (broken on clone / GitHub sync). Local clone at `~/src/wallpaper-engine-renderer` is optional for hacking; push to `sobcak` remote then bump the flake pin.
 - Package: `nix build .#nixosConfigurations.olinux.config.services.we-layerd.package`; apply with `sudo nixos-rebuild switch`.
 
+## we-layerd glibc / Vulkan ICD (2026-11-24)
+
+- Symptom: daemon runs but Background layer empty; logs `VK_ERROR_INITIALIZATION_FAILED` / `failed to find GPU with vulkan support` / `VK_ERROR_INCOMPATIBLE_DRIVER`.
+- Cause: `we-layerd` flake used its own older `nixpkgs` (glibc 2.42). System Mesa/`libvulkan_radeon` + LLVM need glibc 2.44; loader RPATH pulled 2.42 → ICD dlopen failed (`version GLIBC_2.44 not found`).
+- Fix: `inputs.we-layerd.inputs.nixpkgs.follows = "nixpkgs"` in `flake.nix`, then `nix flake update we-layerd` + rebuild. Keep this follows forever when bumping system nixpkgs.
+- Verify: journal shows `vulkan device: AMD Radeon … (RADV …)` and `niri msg layers` has a Background surface.
+
 ## Void system UI (2026-11-23)
 
 - System GTK/Qt/KDE chrome follows kitty **void** palette (`#000000` / `#c5c8c6` / `#ff0000`), not stock Adwaita slate or qt6ct `darker` blue accents.
@@ -137,3 +144,9 @@
 - **Workflow:** `nix switch` (fish wraps `nix`) → `nix-switch` in `modules/common.nix`: `nix flake update`, `sudo nixos-rebuild switch --flake $NIXOS_FLAKE#$host`, then `flatpak update -y`.
 - **Flake root:** `$NIXOS_FLAKE` or `$HOME/Nixos`. Rebuild only (no lock bump): `nix switch --no-update`.
 - **Dropped:** `xwayland-satellite` 0.8.3 overlay — nixpkgs lock now ships 0.8.3 natively.
+
+## Torrent client (2026-11-24)
+
+- Package: `qbittorrent` in `home.packages` (`home.nix`).
+- Chose official qBittorrent over Transmission (peers/DHT bypass proxy), Tribler (no stronger anonymity; no encryption), and Enhanced Edition (third-party fork; prefer upstream for trust).
+- Privacy still needs VPN or SOCKS5 with peer+tracker proxy + “Disable connections not supported by proxies” + Anonymous Mode.
