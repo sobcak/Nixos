@@ -1,19 +1,19 @@
 #[Backend]
-backend = "auto"         # Backend to use: "auto", "hyprland", "hyprsunset" or "wayland"
-transition_mode = "geo"  # Select: "geo", "finish_by", "start_at", "center", "static"
+backend = "wayland"      # Niri: Wayland color management (not Hyprsunset)
+transition_mode = "geo"  # Sunrise/sunset from latitude & longitude (seasonal schedule)
 
 #[Smoothing]
 smoothing = true         # Enable smooth transitions during startup and exit
-startup_duration = 0.5   # Duration of smooth startup in seconds (0.1-60 | 0 = instant)
-shutdown_duration = 0.5  # Duration of smooth shutdown in seconds (0.1-60 | 0 = instant)
+startup_duration = 1.0   # Gentle fade-in when Niri starts sunsetr
+shutdown_duration = 1.0    # Gentle fade-out on exit
 adaptive_interval = 1    # Adaptive interval base for smooth transitions (1-1000)ms
 
 #[Time-based config]
-night_temp = 3300        # Color temperature during night (1000-20000) Kelvin
-day_temp = 6500          # Color temperature during day (1000-20000) Kelvin
-night_gamma = 90         # Gamma percentage for night (10-200%)
-day_gamma = 100          # Gamma percentage for day (10-200%)
-update_interval = "auto" # Update frequency during transitions: "auto" or integer (10-300) sec
+night_temp = 3000        # Warm evening (~halogen); test with `sunsetr test 3000 88`
+day_temp = 6500          # Neutral daylight
+night_gamma = 88         # Slightly dimmer at night without crushing contrast
+day_gamma = 100          # Full brightness by day
+update_interval = "auto" # Per-step updates during geo transitions (JND-aware)
 
 #[Static config]
 static_temp = 6500       # Color temperature for static mode (1000-20000) Kelvin
